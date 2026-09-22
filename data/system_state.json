@@ -1,0 +1,7 @@
+{
+  "build": "0.2.0",
+  "msvo": {"version":"2.0","nodes":782,"edges":1744,"mvc":"ACHIEVED"},
+  "tnpo": {"architecture":"v1.0 FROZEN","roots":5,"branches":26,"active_module_proposals":102,"runtime":"v1.0 FROZEN","synthetic_core_wave":"PASS","user_testing":"NOT RUN","tutor_mvc":"NOT ACHIEVED"},
+  "interface_governance": {"version":"v1.0 FROZEN","synthetic_core_wave":"PASS"},
+  "pilot": {"id":"TNPO-PILOT-01","preregistered":true,"real_user_data_collection":"NOT STARTED","learning_efficacy":"NOT TESTED"}
+}

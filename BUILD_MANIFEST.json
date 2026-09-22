@@ -1,0 +1,25 @@
+{
+  "build_version": "0.2.0",
+  "build_hash_sha256": "5ffb351b599934a496f5def7a0f62e8a8e78ab08e62cfc7ebb3cffbae251d2a0",
+  "build_hash_method": "SHA-256 of UTF-8 lines path:sha256\\n sorted by path over runtime code/data/icon files",
+  "files": {
+    "index.html": "f3a66cb56460c0a9dd99cbfef4a45ff89c1280f94282d98d1f86133bd16bcee7",
+    "styles.css": "d64150bff8629079c0bb55754bd28d8d6c93ee4d9f1dc104b856f2b2262397f0",
+    "app.js": "7426a417ccb894dea293cc02f2758ba97c60d9fc95087fee2def76cc6623b607",
+    "governance.js": "8a1e23a4a5be3ff15e1ca66561a159b81600ad84c230d38db6ac416762059bd5",
+    "db.js": "5e1070c024d4071507386cf7b9ca479586fc1c10754fa834868ecd4dbdb1731c",
+    "manifest.webmanifest": "25456ae06a645c823740571c8012b147c640f72790b895bed27b547da46a8025",
+    "service-worker.js": "5208baec516641ddcf0ac6e9b49d478eb3592e344f2b1c3ee1554ddb6b4158be",
+    "data/msvo_nodes.json": "308f41c603a49cb573890c041d86dfccdd184b580f88023c7f31850a3f87a627",
+    "data/msvo_edges.json": "7020151eb016faef7a1109f888c75ed05fb41c25cd13c3c139314559a8bc0d4a",
+    "data/tnpo_roots.json": "706faab30b0588a8eda94bd2b66188504f774976641b0e4230461b74177231b5",
+    "data/tnpo_branches.json": "2d1e80463b7f7ff0a830d5fc1ad02800ba3feef654bd855c0b4f88d004259ba2",
+    "data/tnpo_modules.json": "ac7247eeff53959ca88045e072b7c258fd43d8ad80f9981c1625922bc712f02b",
+    "data/semantic_catalog.json": "74a0e02c536b2a7158d798150bf63a520f09170c5b12b5827169290fbfb7fd55",
+    "data/system_state.json": "6d45bc1effac6ebb981e84b1f36607dae27495b44215c15a19f3e44dd4376277",
+    "icons/icon-192.png": "87397d08922e9dd4d835754b302caa11d034a4ec7788036bf901e4d49da8350d",
+    "icons/icon-512.png": "7421d7980ca6e513c31231481484386f9727289d1fcb89002f727384624fef94"
+  },
+  "pilot_build_frozen": false,
+  "manual_device_review": "PENDING"
+}

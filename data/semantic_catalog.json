@@ -1,0 +1,49 @@
+{
+  "version": "1.0",
+  "outputs": [
+    {"output_id":"PROV_MAP_FACT","category":"badge","requirement_ids":["UIG-02"],"record_type":"MAP_RECORD","template":"MAP FACT"},
+    {"output_id":"PROV_OBSERVATION","category":"badge","requirement_ids":["UIG-02"],"record_type":"OBSERVATION","template":"OBSERVATION"},
+    {"output_id":"PROV_INFERENCE","category":"badge","requirement_ids":["UIG-02"],"record_type":"INFERENCE","template":"INFERENCE"},
+    {"output_id":"PROV_DECISION","category":"badge","requirement_ids":["UIG-02"],"record_type":"DECISION","template":"DECISION"},
+
+    {"output_id":"EVID_ESTABLISHED","category":"evidence_state","requirement_ids":["UIG-03"],"record_type":"DECISION","template":"Established"},
+    {"output_id":"EVID_SUPPORTED","category":"evidence_state","requirement_ids":["UIG-03"],"record_type":"INFERENCE","template":"Supported, not established"},
+    {"output_id":"EVID_CONFLICTING","category":"evidence_state","requirement_ids":["UIG-01","UIG-03"],"record_type":"INFERENCE","template":"Conflicting evidence"},
+    {"output_id":"EVID_INSUFFICIENT","category":"evidence_state","requirement_ids":["UIG-01","UIG-03"],"record_type":"INFERENCE","template":"Insufficient evidence"},
+
+    {"output_id":"TASK_PRACTICE","category":"task_role","requirement_ids":["UIG-07"],"record_type":"DECISION","template":"Practice — hints or support may be used; this does not independently validate the topic."},
+    {"output_id":"TASK_DIAGNOSTIC","category":"task_role","requirement_ids":["UIG-07"],"record_type":"DECISION","template":"Diagnostic check — this gathers evidence and is not independent validation."},
+    {"output_id":"TASK_VALIDATION","category":"task_role","requirement_ids":["UIG-07"],"record_type":"DECISION","template":"Independent validation — no hints or outside help may be used."},
+
+    {"output_id":"MAP_NODE_TITLE","category":"map_claim","requirement_ids":["UIG-02","UIG-12","CA-INV-01"],"record_type":"MAP_RECORD","template":"{node_id} — {label}"},
+    {"output_id":"MAP_NODE_QUESTION","category":"map_claim","requirement_ids":["UIG-02","UIG-12","CA-INV-01"],"record_type":"MAP_RECORD","template":"{core_question}"},
+    {"output_id":"MAP_RELATION","category":"map_claim","requirement_ids":["UIG-02","UIG-12","CA-INV-01"],"record_type":"MAP_RECORD","template":"{relation}: {other_id} — {other_label}"},
+    {"output_id":"PREREQ_GRAPH_UNAVAILABLE","category":"data_availability","requirement_ids":["UIG-01","UIG-12","MSVO-NO-INVENTED-EDGE"],"record_type":"OBSERVATION","template":"Prerequisite relations are not present in this bundled map, so the app will not invent a prerequisite claim."},
+
+    {"output_id":"WHY_INSUFFICIENT","category":"why_panel","requirement_ids":["UIG-01","UIG-03","UIG-11","UIG-12"],"record_type":"INFERENCE","template":"There is not enough evidence to make a stronger learner-state claim yet."},
+    {"output_id":"WHY_CONFLICTING","category":"why_panel","requirement_ids":["UIG-01","UIG-03","UIG-11","UIG-12"],"record_type":"INFERENCE","template":"Current evidence supports more than one interpretation, so the next step is to gather discriminating evidence rather than choose one explanation."},
+    {"output_id":"WHY_SUPPORTED","category":"why_panel","requirement_ids":["UIG-03","UIG-11","UIG-12"],"record_type":"INFERENCE","template":"Current evidence supports a reversible next step, but not independent validation."},
+    {"output_id":"WHY_ESTABLISHED","category":"why_panel","requirement_ids":["UIG-03","UIG-11","UIG-12"],"record_type":"DECISION","template":"Independent validation has been authorized for the displayed scope. Later evidence may still create a retention or transfer concern without rewriting history."},
+    {"output_id":"BACKTRACK_EXPLANATION","category":"navigation","requirement_ids":["UIG-06"],"record_type":"DECISION","template":"We are temporarily checking {focus} before returning to {target}. Return condition: {condition}."},
+
+    {"output_id":"PROGRESS_EXPOSURE","category":"progress","requirement_ids":["UIG-10"],"record_type":"OBSERVATION","template":"Exposure: {value}"},
+    {"output_id":"PROGRESS_PRACTICE","category":"progress","requirement_ids":["UIG-10"],"record_type":"OBSERVATION","template":"Practice: {value}"},
+    {"output_id":"PROGRESS_VALIDATION","category":"progress","requirement_ids":["UIG-09","UIG-10"],"record_type":"DECISION","template":"Validation: {value}"},
+    {"output_id":"PROGRESS_RETENTION","category":"progress","requirement_ids":["UIG-08","UIG-09","UIG-10"],"record_type":"DECISION","template":"Retention: {value}"},
+    {"output_id":"PROGRESS_EVIDENCE","category":"progress","requirement_ids":["UIG-03","UIG-10"],"record_type":"INFERENCE","template":"Evidence: {value}"},
+    {"output_id":"HISTORICAL_VALIDATION","category":"history","requirement_ids":["UIG-09"],"record_type":"DECISION","template":"Previously independently validated on {date}."},
+    {"output_id":"RETENTION_REVIEW_DUE","category":"retention","requirement_ids":["UIG-08","UIG-09"],"record_type":"DECISION","template":"Review due under policy {policy_id}. Earlier validation remains in history."},
+    {"output_id":"RETENTION_NOT_TRIGGERED","category":"retention","requirement_ids":["UIG-08"],"record_type":"OBSERVATION","template":"No governed revalidation-due trigger is active."},
+
+    {"output_id":"SELF_REPORT_RECORDED","category":"learner_correction","requirement_ids":["UIG-04","UIG-05"],"record_type":"OBSERVATION","template":"Your correction was recorded as a self-report observation. It did not directly change validation state."},
+    {"output_id":"NO_GAMING_INFERENCE","category":"learner_correction","requirement_ids":["UIG-05"],"record_type":"INFERENCE","template":"The app does not infer dishonesty, gaming, or avoidance from this self-report pattern."},
+
+    {"output_id":"CONSENT_NONSCORED","category":"consent","requirement_ids":["CONSENT-SUPP-02"],"record_type":"DECISION","template":"This check is only to make sure your rights were explained clearly. It is not part of the study tasks, it is not scored, and there is no penalty for asking for clarification."},
+    {"output_id":"CONSENT_VOLUNTARY","category":"consent","requirement_ids":["CONSENT-01"],"record_type":"DECISION","template":"Participation is voluntary. You can stop at any time, for any reason or no stated reason, without penalty."},
+    {"output_id":"WITHDRAWAL_NOT_FAILURE","category":"withdrawal","requirement_ids":["CONSENT-03","CONSENT-SUPP-03"],"record_type":"DECISION","template":"Stopping the pilot is not a learner failure and is not used as evidence about your ability or understanding."},
+    {"output_id":"WITHDRAWAL_DEFAULT_DELETE","category":"withdrawal","requirement_ids":["CONSENT-SUPP-01"],"record_type":"DECISION","template":"If you stop and give no data preference, the default is to exclude your pilot data from analysis and delete participant-level pilot data where technically feasible."},
+
+    {"output_id":"PILOT_SCENARIO_LABEL","category":"pilot","requirement_ids":["PILOT-01"],"record_type":"OBSERVATION","template":"Pilot scenario — synthetic interface state, not a claim about this learner."},
+    {"output_id":"PILOT_NOT_EFFICACY","category":"pilot","requirement_ids":["PILOT-01"],"record_type":"DECISION","template":"Pilot 01 tests usability, semantic interpretability, and governance integrity. It does not test whether TNPO improves learning."}
+  ]
+}

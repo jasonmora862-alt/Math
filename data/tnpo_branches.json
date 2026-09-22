@@ -1,0 +1,158 @@
+[
+  {
+    "branch_id": "P01.01",
+    "root_id": "P01",
+    "branch_name": "Explanatory Forms",
+    "frozen_semantic_boundary": "Tutor makes target knowledge/procedures/relationships intelligible through explanatory forms."
+  },
+  {
+    "branch_id": "P01.02",
+    "root_id": "P01",
+    "branch_name": "Examples & Modeling",
+    "frozen_semantic_boundary": "Tutor demonstrates or models examples, solutions, reasoning, contrasts, or nonexamples."
+  },
+  {
+    "branch_id": "P01.03",
+    "root_id": "P01",
+    "branch_name": "Representation Coordination",
+    "frozen_semantic_boundary": "Tutor coordinates verbal, symbolic, visual, concrete, abstract, or multiple representations."
+  },
+  {
+    "branch_id": "P01.04",
+    "root_id": "P01",
+    "branch_name": "Explanatory Prompting",
+    "frozen_semantic_boundary": "Tutor prompts elaboration, explanation, comparison, why/how reasoning."
+  },
+  {
+    "branch_id": "P02.01",
+    "root_id": "P02",
+    "branch_name": "Orientation, Cueing & Hints",
+    "frozen_semantic_boundary": "Tutor provides graded orientation, cues, subgoals, or hints."
+  },
+  {
+    "branch_id": "P02.02",
+    "root_id": "P02",
+    "branch_name": "Partial Support Structures",
+    "frozen_semantic_boundary": "Tutor provides partial solutions, frames, checklists, or external organizers."
+  },
+  {
+    "branch_id": "P02.03",
+    "root_id": "P02",
+    "branch_name": "Guided Practice",
+    "frozen_semantic_boundary": "Tutor provides temporary support around learner practice."
+  },
+  {
+    "branch_id": "P02.04",
+    "root_id": "P02",
+    "branch_name": "Fading & Release of Support",
+    "frozen_semantic_boundary": "Tutor progressively reduces external support toward independence."
+  },
+  {
+    "branch_id": "P02.05",
+    "root_id": "P02",
+    "branch_name": "Help Access & Help-Seeking Scaffolds",
+    "frozen_semantic_boundary": "Tutor provides/supports effective access to help without equating help use with mastery."
+  },
+  {
+    "branch_id": "P03.01",
+    "root_id": "P03",
+    "branch_name": "Retrieval & Quizzing",
+    "frozen_semantic_boundary": "Learner retrieves or is quizzed as a learning activity."
+  },
+  {
+    "branch_id": "P03.02",
+    "root_id": "P03",
+    "branch_name": "Spacing & Distributed Practice",
+    "frozen_semantic_boundary": "Practice is distributed/delayed over time; schedule selection remains policy."
+  },
+  {
+    "branch_id": "P03.03",
+    "root_id": "P03",
+    "branch_name": "Interleaving & Discrimination",
+    "frozen_semantic_boundary": "Learner practices mixed types/strategies to discriminate appropriate responses."
+  },
+  {
+    "branch_id": "P03.04",
+    "root_id": "P03",
+    "branch_name": "Problem Solving & Generation",
+    "frozen_semantic_boundary": "Learner solves, constructs, generates, or completes target work."
+  },
+  {
+    "branch_id": "P03.05",
+    "root_id": "P03",
+    "branch_name": "Worked-Example / Problem Integration",
+    "frozen_semantic_boundary": "Worked examples and independent problem activity are intentionally integrated."
+  },
+  {
+    "branch_id": "P03.06",
+    "root_id": "P03",
+    "branch_name": "Self-Explanation & Reasoning Generation",
+    "frozen_semantic_boundary": "Learner generates explanations, justification, or explicit reasoning."
+  },
+  {
+    "branch_id": "P03.07",
+    "root_id": "P03",
+    "branch_name": "Variation & Transfer-Oriented Activity",
+    "frozen_semantic_boundary": "Learner practices across varied contexts/representations for generalization; not itself transfer certification."
+  },
+  {
+    "branch_id": "P03.08",
+    "root_id": "P03",
+    "branch_name": "Collaborative & Peer Learning Activities",
+    "frozen_semantic_boundary": "Learner participates in structured collaborative/cooperative/peer learning activity."
+  },
+  {
+    "branch_id": "P04.01",
+    "root_id": "P04",
+    "branch_name": "Outcome / Criterion Feedback",
+    "frozen_semantic_boundary": "Tutor provides performance information relative to result/criterion."
+  },
+  {
+    "branch_id": "P04.02",
+    "root_id": "P04",
+    "branch_name": "Process / Strategy Feedback",
+    "frozen_semantic_boundary": "Tutor provides feedback on process, strategy, procedure, or method choice."
+  },
+  {
+    "branch_id": "P04.03",
+    "root_id": "P04",
+    "branch_name": "Explanatory / Error-Specific Feedback",
+    "frozen_semantic_boundary": "Tutor explains correctness/errors with evidence-sensitive error interpretation."
+  },
+  {
+    "branch_id": "P04.04",
+    "root_id": "P04",
+    "branch_name": "Self-Regulation, Calibration & Actionable Improvement Feedback",
+    "frozen_semantic_boundary": "Tutor provides calibration/self-regulatory feedback and specific improvement targets."
+  },
+  {
+    "branch_id": "P05.01",
+    "root_id": "P05",
+    "branch_name": "Planning Support",
+    "frozen_semantic_boundary": "Tutor supports learner planning, goal decomposition, task analysis, or resource planning."
+  },
+  {
+    "branch_id": "P05.02",
+    "root_id": "P05",
+    "branch_name": "Monitoring Support",
+    "frozen_semantic_boundary": "Tutor supports learner monitoring of comprehension, progress, confidence, or strategy."
+  },
+  {
+    "branch_id": "P05.03",
+    "root_id": "P05",
+    "branch_name": "Evaluation & Reflection Support",
+    "frozen_semantic_boundary": "Tutor supports learner reflection and evaluation of performance/strategy."
+  },
+  {
+    "branch_id": "P05.04",
+    "root_id": "P05",
+    "branch_name": "Strategy, Study & Time Regulation",
+    "frozen_semantic_boundary": "Tutor supports learner regulation of study strategy, review, time, and priorities."
+  },
+  {
+    "branch_id": "P05.05",
+    "root_id": "P05",
+    "branch_name": "Help-Seeking & Resource Regulation",
+    "frozen_semantic_boundary": "Tutor supports learner decisions about when/how to seek and evaluate help/resources."
+  }
+]

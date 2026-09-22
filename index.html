@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#08101f" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="MSVO Tutor" />
+  <meta name="description" content="Local-first MSVO/TNPO learner navigator with governed learner-state and interface semantics." />
+  <title>MSVO Tutor · TNPO Navigator v0.2</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#app">Skip to content</a>
+
+  <header class="topbar">
+    <div class="brand-block">
+      <div class="eyebrow">MSVO × TNPO</div>
+      <div class="brand-title">Learning Navigator</div>
+    </div>
+    <div class="top-actions">
+      <span id="connectionBadge" class="mini-status" aria-live="polite">Checking…</span>
+      <button id="pilotStopTopBtn" class="text-btn danger-text hidden" type="button">Stop pilot</button>
+      <button id="installHelpBtn" class="icon-btn" type="button" aria-label="Install help">⋯</button>
+    </div>
+  </header>
+
+  <div id="statusAnnouncer" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <main id="app" tabindex="-1">
+    <!-- LEARN -->
+    <section id="view-learn" class="view active" aria-labelledby="learnTitle">
+      <div class="hero-simple">
+        <div class="eyebrow">LEARN</div>
+        <h1 id="learnTitle">What do you want to learn?</h1>
+        <p class="lede">Choose a mathematical target. The app keeps the map, learner evidence, and teaching decisions separate.</p>
+      </div>
+
+      <div class="search-card card">
+        <label for="learnSearch" class="field-label">Search the MSVO map</label>
+        <input id="learnSearch" class="search-input" type="search" placeholder="Try: numerical linear algebra, probability, topology…" autocomplete="off" />
+        <div id="learnSearchResults" class="result-list compact" aria-live="polite"></div>
+      </div>
+
+      <section id="continueCard" class="card hidden" aria-labelledby="continueTitle">
+        <div class="section-title-row">
+          <div>
+            <div class="eyebrow">CONTINUE</div>
+            <h2 id="continueTitle">Current target</h2>
+          </div>
+          <span id="continueEvidenceBadge"></span>
+        </div>
+        <div id="continueTarget"></div>
+        <div class="button-row">
+          <button id="openSessionBtn" class="primary-btn" type="button">Open session</button>
+          <button id="whyStepBtn" class="secondary-btn" type="button">Why this step?</button>
+          <button id="changeTargetBtn" class="ghost-btn" type="button">Change target</button>
+        </div>
+      </section>
+
+      <section id="sessionCard" class="card hidden" aria-labelledby="sessionTitle">
+        <div class="section-title-row align-start">
+          <div>
+            <div class="eyebrow">CURRENT FOCUS</div>
+            <h2 id="sessionTitle">Learning session</h2>
+          </div>
+          <span id="sessionMapBadge"></span>
+        </div>
+        <div id="sessionTarget"></div>
+
+        <div id="prereqAvailability" class="notice subtle"></div>
+
+        <div class="session-actions">
+          <div class="action-card">
+            <div class="action-topline">
+              <span class="role-pill practice">Practice</span>
+              <span class="claim-badge" data-record-type="DECISION">DECISION</span>
+            </div>
+            <p data-output-id="TASK_PRACTICE">Hints or other support may be used. This task does not independently validate the topic.</p>
+            <div class="button-row">
+              <button id="recordIndependentPracticeBtn" class="secondary-btn" type="button">Record independent practice</button>
+              <button id="recordAssistedPracticeBtn" class="ghost-btn" type="button">Record assisted practice</button>
+            </div>
+          </div>
+
+          <div class="action-card">
+            <div class="action-topline">
+              <span class="role-pill validation">Independent validation</span>
+              <span class="claim-badge" data-record-type="DECISION">DECISION</span>
+            </div>
+            <p data-output-id="TASK_VALIDATION">No hints or outside help may be used for this task. A governed evaluator may use the result as validation evidence.</p>
+            <p class="muted small">Offline v0.2 does not fabricate a validator. A validation state can only change through an authorized evaluator/runtime transition.</p>
+            <button class="secondary-btn" type="button" disabled aria-disabled="true">Validator not connected</button>
+          </div>
+        </div>
+
+        <div class="button-row top-gap">
+          <button id="recordExposureBtn" class="secondary-btn" type="button">Record seen &amp; explained</button>
+          <button id="learnerCorrectionBtn" class="ghost-btn" type="button">Something’s wrong</button>
+          <button id="sessionWhyBtn" class="ghost-btn" type="button">Why this step?</button>
+        </div>
+      </section>
+
+      <section class="card principles-card" aria-labelledby="learnSafeguardsTitle">
+        <div class="eyebrow">WHAT THE APP WILL NOT DO</div>
+        <h2 id="learnSafeguardsTitle">Simple on top, governed underneath.</h2>
+        <div class="principle-grid">
+          <div><strong>No mastery percentage</strong><span>Progress stays multidimensional.</span></div>
+          <div><strong>No invented prerequisite</strong><span>Missing graph evidence stays missing.</span></div>
+          <div><strong>No self-report override</strong><span>Your correction is evidence, not a state command.</span></div>
+          <div><strong>No hidden validation</strong><span>Task role is shown before you answer.</span></div>
+        </div>
+      </section>
+    </section>
+
+    <!-- MAP -->
+    <section id="view-map" class="view" aria-labelledby="mapTitle">
+      <div class="view-head">
+        <div>
+          <div class="eyebrow">MAP</div>
+          <h1 id="mapTitle">Explore mathematics</h1>
+          <p class="muted">Simple view first. Open details only when you want the architecture.</p>
+        </div>
+        <span id="mapCount" class="badge neutral"></span>
+      </div>
+
+      <div class="card sticky-card">
+        <label for="mapSearch" class="field-label">Search MSVO</label>
+        <input id="mapSearch" class="search-input" type="search" placeholder="Search fields, branches, modules…" autocomplete="off" />
+      </div>
+
+      <div class="map-layout">
+        <div>
+          <div id="mapRoots" class="root-grid"></div>
+          <div id="mapResults" class="result-list"></div>
+        </div>
+        <aside id="mapDetail" class="card detail-panel empty-state">Select a map node.</aside>
+      </div>
+    </section>
+
+    <!-- PROGRESS -->
+    <section id="view-progress" class="view" aria-labelledby="progressTitle">
+      <div class="view-head">
+        <div>
+          <div class="eyebrow">PROGRESS</div>
+          <h1 id="progressTitle">What the evidence currently supports</h1>
+          <p class="muted">No single mastery score. Each dimension answers a different question.</p>
+        </div>
+      </div>
+      <div id="progressOverview" class="stat-grid"></div>
+      <div id="progressList" class="result-list"></div>
+    </section>
+
+    <!-- MORE -->
+    <section id="view-more" class="view" aria-labelledby="moreTitle">
+      <div class="view-head">
+        <div>
+          <div class="eyebrow">MORE</div>
+          <h1 id="moreTitle">Inspect, export, and research</h1>
+        </div>
+      </div>
+
+      <details class="card" open>
+        <summary><strong>Why these labels?</strong><span>Evidence + provenance</span></summary>
+        <div class="details-body">
+          <div class="legend-grid">
+            <div><span class="claim-badge map">MAP FACT</span><p>Comes from the authoritative bundled map/version.</p></div>
+            <div><span class="claim-badge obs">OBSERVATION</span><p>Records something that happened or was reported.</p></div>
+            <div><span class="claim-badge inf">INFERENCE</span><p>A conclusion drawn from evidence; it can remain uncertain.</p></div>
+            <div><span class="claim-badge dec">DECISION</span><p>A governed runtime/policy authorization.</p></div>
+          </div>
+          <div id="evidenceLegend" class="legend-list"></div>
+        </div>
+      </details>
+
+      <details class="card">
+        <summary><strong>TNPO inspector</strong><span>5 roots · 26 frozen branches</span></summary>
+        <div class="details-body">
+          <input id="tnpoSearch" class="search-input" type="search" placeholder="Search TNPO roots, branches, modules…" />
+          <div id="tnpoTree" class="tnpo-tree"></div>
+        </div>
+      </details>
+
+      <details class="card">
+        <summary><strong>AI handoff</strong><span>Grounded context export</span></summary>
+        <div class="details-body">
+          <p class="muted">Exports the selected target, local state, nearby map relations, and governance constraints. It does not train or change model weights.</p>
+          <button id="generateContextBtn" class="secondary-btn" type="button">Generate current-target context</button>
+          <div class="section-title-row top-gap"><h3>Context packet</h3><button id="copyContextBtn" class="ghost-btn" type="button">Copy</button></div>
+          <textarea id="contextOutput" class="context-output" readonly placeholder="Choose a learning target first."></textarea>
+        </div>
+      </details>
+
+      <details class="card">
+        <summary><strong>Pilot mode</strong><span>Consent + protected local pilot lane</span></summary>
+        <div class="details-body">
+          <div id="pilotInactivePanel">
+            <p data-output-id="PILOT_NOT_EFFICACY" class="notice subtle">Pilot 01 tests usability, semantic interpretability, and governance integrity. It does not test whether TNPO improves learning.</p>
+            <label class="field-label" for="pilotParticipantId">Participant ID</label>
+            <input id="pilotParticipantId" class="search-input short-input" value="P01" inputmode="text" autocomplete="off" />
+            <div class="consent-box">
+              <p data-output-id="CONSENT_VOLUNTARY"><strong>Participation is voluntary.</strong> You can stop at any time, for any reason or no stated reason, without penalty.</p>
+              <p data-output-id="CONSENT_NONSCORED">This next check is only to make sure your rights were explained clearly. It is not part of the study tasks, it is not scored, and there is no penalty for asking for clarification.</p>
+              <p data-output-id="WITHDRAWAL_DEFAULT_DELETE">If you stop and give no data preference, the default is to exclude your pilot data from analysis and delete participant-level pilot data where technically feasible.</p>
+              <label class="check-row"><input id="pilotConsentCheck" type="checkbox" /> <span>I understand that participation is voluntary, I can stop without giving a reason, and stopping will not count against me.</span></label>
+            </div>
+            <button id="startPilotBtn" class="primary-btn" type="button">Begin pilot mode</button>
+          </div>
+          <div id="pilotActivePanel" class="hidden">
+            <div class="section-title-row"><div><div class="eyebrow">ACTIVE PILOT</div><h3 id="pilotActiveId">—</h3></div><span class="badge warn">Local pilot lane</span></div>
+            <p data-output-id="WITHDRAWAL_NOT_FAILURE" class="notice subtle">Stopping the pilot is not a learner failure and is not used as evidence about your ability or understanding.</p>
+            <button id="openScenarioLabBtn" class="secondary-btn" type="button">Open interface scenario lab</button>
+            <button id="completePilotBtn" class="ghost-btn" type="button">End session normally</button>
+            <button id="withdrawPilotBtn" class="danger-btn" type="button">Stop / withdraw</button>
+          </div>
+        </div>
+      </details>
+
+      <details class="card">
+        <summary><strong>Local data</strong><span>Backup, restore, delete</span></summary>
+        <div class="details-body">
+          <p class="muted">Personal learner state stays in this browser. Pilot data use a separate local store.</p>
+          <div class="button-row">
+            <button id="exportDataBtn" class="secondary-btn" type="button">Export backup</button>
+            <label class="secondary-btn file-label">Import personal backup<input id="importDataInput" type="file" accept="application/json" hidden /></label>
+            <button id="clearPersonalDataBtn" class="danger-btn" type="button">Delete personal local data</button>
+          </div>
+        </div>
+      </details>
+
+      <details class="card">
+        <summary><strong>Research status</strong><span>What is and is not proven</span></summary>
+        <div class="details-body" id="researchStatus"></div>
+      </details>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Main navigation">
+    <button data-nav="learn" class="nav-btn active" type="button"><span aria-hidden="true">◉</span><small>Learn</small></button>
+    <button data-nav="map" class="nav-btn" type="button"><span aria-hidden="true">⌘</span><small>Map</small></button>
+    <button data-nav="progress" class="nav-btn" type="button"><span aria-hidden="true">▤</span><small>Progress</small></button>
+    <button data-nav="more" class="nav-btn" type="button"><span aria-hidden="true">•••</span><small>More</small></button>
+  </nav>
+
+  <!-- Why this step -->
+  <dialog id="whyDialog" class="sheet-dialog">
+    <form method="dialog" class="dialog-card">
+      <div class="section-title-row align-start">
+        <div><div class="eyebrow">TRANSPARENCY</div><h2>Why this step?</h2></div>
+        <button class="icon-btn" value="cancel" aria-label="Close">×</button>
+      </div>
+      <div id="whyEvidenceState"></div>
+      <div class="why-grid">
+        <section><div class="why-label">What we know</div><div id="whyKnow" class="why-content"></div></section>
+        <section><div class="why-label">What we observed</div><div id="whyObserved" class="why-content"></div></section>
+        <section><div class="why-label">What remains uncertain</div><div id="whyUncertain" class="why-content"></div></section>
+        <section><div class="why-label">Why the next step is allowed</div><div id="whyDecision" class="why-content"></div></section>
+      </div>
+      <button class="primary-btn full-btn" value="cancel">Done</button>
+    </form>
+  </dialog>
+
+  <!-- Learner correction -->
+  <dialog id="correctionDialog" class="sheet-dialog">
+    <form method="dialog" class="dialog-card" id="correctionForm">
+      <div class="section-title-row align-start">
+        <div><div class="eyebrow">LEARNER CORRECTION</div><h2>Tell the system what it missed</h2></div>
+        <button class="icon-btn" value="cancel" aria-label="Close">×</button>
+      </div>
+      <p class="muted">Your selection becomes a self-report observation. It does not directly change validation state.</p>
+      <fieldset class="choice-list">
+        <legend class="sr-only">Choose a correction</legend>
+        <label><input type="radio" name="correction" value="I guessed" /> I guessed</label>
+        <label><input type="radio" name="correction" value="I already knew this" /> I already knew this</label>
+        <label><input type="radio" name="correction" value="I've seen this exact problem before" /> I’ve seen this exact problem before</label>
+        <label><input type="radio" name="correction" value="I've seen a very similar problem before" /> I’ve seen a very similar problem before</label>
+        <label><input type="radio" name="correction" value="I used outside help" /> I used outside help</label>
+        <label><input type="radio" name="correction" value="I don't think this prerequisite is the issue" /> I don’t think this prerequisite is the issue</label>
+        <label><input type="radio" name="correction" value="Other" /> Other</label>
+      </fieldset>
+      <textarea id="correctionNote" class="note-input" placeholder="Optional note"></textarea>
+      <div class="button-row">
+        <button id="saveCorrectionBtn" class="primary-btn" type="button">Record self-report</button>
+        <button class="ghost-btn" value="cancel">Cancel</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Withdrawal -->
+  <dialog id="withdrawDialog" class="sheet-dialog">
+    <form method="dialog" class="dialog-card">
+      <div class="section-title-row align-start">
+        <div><div class="eyebrow">WITHDRAWAL</div><h2>Stop the pilot</h2></div>
+        <button class="icon-btn" value="cancel" aria-label="Close">×</button>
+      </div>
+      <p data-output-id="WITHDRAWAL_NOT_FAILURE">Stopping is not a learner failure and will not be interpreted as evidence about your ability or understanding.</p>
+      <p class="muted">You do not need to give a reason. If you make no data choice, the protective default is deletion/exclusion where technically feasible.</p>
+      <div class="button-stack">
+        <button id="withdrawDeleteBtn" class="danger-btn" type="button">Stop and use default: exclude/delete</button>
+        <button id="withdrawRetainBtn" class="secondary-btn" type="button">Stop and allow de-identified pilot data to remain</button>
+        <button class="ghost-btn" value="cancel">Keep participating</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Scenario lab -->
+  <dialog id="scenarioDialog" class="wide-dialog">
+    <form method="dialog" class="dialog-card">
+      <div class="section-title-row align-start">
+        <div><div class="eyebrow">PILOT SCENARIO LAB</div><h2>Governed interface states</h2></div>
+        <button class="icon-btn" value="cancel" aria-label="Close">×</button>
+      </div>
+      <p class="notice subtle" data-output-id="PILOT_SCENARIO_LABEL">Pilot scenario — synthetic interface state, not a claim about this learner.</p>
+      <div id="scenarioTabs" class="scenario-tabs"></div>
+      <div id="scenarioContent"></div>
+    </form>
+  </dialog>
+
+  <!-- Install/help -->
+  <dialog id="installDialog" class="sheet-dialog">
+    <form method="dialog" class="dialog-card">
+      <div class="section-title-row align-start">
+        <div><div class="eyebrow">PHONE LAUNCH</div><h2>Add to your iPhone</h2></div>
+        <button class="icon-btn" value="cancel" aria-label="Close">×</button>
+      </div>
+      <ol class="steps">
+        <li>Publish this folder on a static HTTPS host such as GitHub Pages.</li>
+        <li>Open the site in Safari.</li>
+        <li>Use the page/share menu and choose <strong>Add to Home Screen</strong>.</li>
+        <li>Leave <strong>Open as Web App</strong> enabled, then add it.</li>
+      </ol>
+      <p class="muted small">After the first successful load, the service worker caches the application shell and map files for offline navigation.</p>
+      <button class="primary-btn full-btn" value="cancel">Done</button>
+    </form>
+  </dialog>
+
+  <script src="app.js" type="module"></script>
+</body>
+</html>

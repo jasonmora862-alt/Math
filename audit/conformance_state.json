@@ -1,0 +1,137 @@
+{
+  "build_version": "0.2.0",
+  "automated_conformance": "PASS",
+  "full_implementation_conformance": "NOT_YET_ACHIEVED",
+  "manual_device_review": "PENDING",
+  "pilot_build_frozen": false,
+  "blockers": [],
+  "majors": [],
+  "checks": [
+    {
+      "check_id": "AUTO-001",
+      "pass": true,
+      "severity_if_failed": "BLOCKER",
+      "detail": "JavaScript syntax check for app/governance/db/service-worker."
+    },
+    {
+      "check_id": "AUTO-002",
+      "pass": true,
+      "severity_if_failed": "BLOCKER",
+      "detail": "Governance unit tests: badge derivation, validation contamination, history preservation, retention trigger, self-report semantics."
+    },
+    {
+      "check_id": "AUTO-003",
+      "pass": true,
+      "severity_if_failed": "BLOCKER",
+      "detail": "Bundled MSVO/TNPO counts match frozen/current reference state."
+    },
+    {
+      "check_id": "AUTO-004",
+      "pass": true,
+      "severity_if_failed": "BLOCKER",
+      "detail": "Bundle contains no REQUIRES edges; implementation must surface unavailability rather than invent prerequisites."
+    },
+    {
+      "check_id": "AUTO-005",
+      "pass": true,
+      "severity_if_failed": "BLOCKER",
+      "detail": "Missing prerequisite graph is explicitly surfaced."
+    },
+    {
+      "check_id": "AUTO-006",
+      "pass": true,
+      "severity_if_failed": "BLOCKER",
+      "detail": "Reverse traceability: every used semantic output ID exists in semantic catalog. Unknown=[]"
+    },
+    {
+      "check_id": "AUTO-007",
+      "pass": true,
+      "severity_if_failed": "BLOCKER",
+      "detail": "Every semantic catalog output has governing requirement IDs and source record type. Missing=[]"
+    },
+    {
+      "check_id": "AUTO-008",
+      "pass": true,
+      "severity_if_failed": "BLOCKER",
+      "detail": "Learner-state write path is centralized in governed transition commit path."
+    },
+    {
+      "check_id": "AUTO-009",
+      "pass": true,
+      "severity_if_failed": "BLOCKER",
+      "detail": "Event ledger uses append-only add(), not overwrite put()."
+    },
+    {
+      "check_id": "AUTO-010",
+      "pass": true,
+      "severity_if_failed": "BLOCKER",
+      "detail": "UI code does not directly assign validation state. Matches=[]"
+    },
+    {
+      "check_id": "AUTO-011",
+      "pass": true,
+      "severity_if_failed": "BLOCKER",
+      "detail": "Learner correction appends SELF_REPORT observation without direct learner-state mutation."
+    },
+    {
+      "check_id": "AUTO-012",
+      "pass": true,
+      "severity_if_failed": "BLOCKER",
+      "detail": "Review-due rendering is gated by authorized retention trigger."
+    },
+    {
+      "check_id": "AUTO-013",
+      "pass": true,
+      "severity_if_failed": "BLOCKER",
+      "detail": "Historical validation is stored separately and rendered without history rewrite."
+    },
+    {
+      "check_id": "AUTO-014",
+      "pass": true,
+      "severity_if_failed": "BLOCKER",
+      "detail": "No ungoverned mastery percentage present. Matches=[]"
+    },
+    {
+      "check_id": "AUTO-015",
+      "pass": true,
+      "severity_if_failed": "MAJOR",
+      "detail": "Required participant-facing consent/understanding wording is present."
+    },
+    {
+      "check_id": "AUTO-016",
+      "pass": true,
+      "severity_if_failed": "BLOCKER",
+      "detail": "Withdrawal protective default and withdrawal != learner failure are implemented."
+    },
+    {
+      "check_id": "AUTO-017",
+      "pass": true,
+      "severity_if_failed": "BLOCKER",
+      "detail": "Protective withdrawal deletion removes participant-level pilot events/state where feasible."
+    },
+    {
+      "check_id": "AUTO-018",
+      "pass": true,
+      "severity_if_failed": "MAJOR",
+      "detail": "PWA manifest contains standalone display, start URL, and icons."
+    },
+    {
+      "check_id": "AUTO-019",
+      "pass": true,
+      "severity_if_failed": "MAJOR",
+      "detail": "Service worker pre-caches core shell and governed map/catalog assets."
+    },
+    {
+      "check_id": "AUTO-020",
+      "pass": true,
+      "severity_if_failed": "MAJOR",
+      "detail": "Status announcements and visible focus treatment are present."
+    },
+    {
+      "check_id": "AUTO-021",
+      "pass": true,
+      "severity_if_failed": "MAJOR",
+      "detail": "Learner-first four-tab navigation is implemented."
+    }
+  ]
+}

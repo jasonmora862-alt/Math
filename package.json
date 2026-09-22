@@ -1,0 +1,10 @@
+{
+  "name": "tnpo-msvo-navigator",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "audit": "python audit/conformance_audit.py"
+  }
+}

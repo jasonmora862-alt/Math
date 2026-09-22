@@ -1,0 +1,59 @@
+TAP version 13
+# Subtest: provenance badge is derived only from record type
+ok 1 - provenance badge is derived only from record type
+  ---
+  duration_ms: 4.480696
+  type: 'test'
+  ...
+# Subtest: unknown evidence presentation falls back to insufficient evidence
+ok 2 - unknown evidence presentation falls back to insufficient evidence
+  ---
+  duration_ms: 5.616735
+  type: 'test'
+  ...
+# Subtest: practice cannot create validation
+ok 3 - practice cannot create validation
+  ---
+  duration_ms: 6.765852
+  type: 'test'
+  ...
+# Subtest: assisted task cannot be used as independent validation
+ok 4 - assisted task cannot be used as independent validation
+  ---
+  duration_ms: 2.427217
+  type: 'test'
+  ...
+# Subtest: retroactive task-role rewrite cannot create validation
+ok 5 - retroactive task-role rewrite cannot create validation
+  ---
+  duration_ms: 0.67705
+  type: 'test'
+  ...
+# Subtest: authorized validation preserves history
+ok 6 - authorized validation preserves history
+  ---
+  duration_ms: 2.304974
+  type: 'test'
+  ...
+# Subtest: review due cannot appear without an authorized policy trigger
+ok 7 - review due cannot appear without an authorized policy trigger
+  ---
+  duration_ms: 0.618909
+  type: 'test'
+  ...
+# Subtest: self-report is an observation payload, not a state transition
+ok 8 - self-report is an observation payload, not a state transition
+  ---
+  duration_ms: 0.439753
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 622.323563
+

@@ -1,0 +1,27 @@
+[
+  {
+    "root_id": "P01",
+    "root_name": "Explanation & Representation",
+    "definition": "Make target knowledge, procedures, relationships or representations more intelligible."
+  },
+  {
+    "root_id": "P02",
+    "root_name": "Scaffolding & Guided Support",
+    "definition": "Provide temporary, contingent or structured support before full independent performance."
+  },
+  {
+    "root_id": "P03",
+    "root_name": "Practice & Learning Activities",
+    "definition": "Engage the learner in retrieval, generation, problem solving, discrimination, application or collaborative learning activity."
+  },
+  {
+    "root_id": "P04",
+    "root_name": "Feedback",
+    "definition": "Provide information about performance relative to a goal, criterion, process or intended outcome."
+  },
+  {
+    "root_id": "P05",
+    "root_name": "Metacognitive & Self-Regulatory Support",
+    "definition": "Help the learner plan, monitor, evaluate and regulate their own learning."
+  }
+]

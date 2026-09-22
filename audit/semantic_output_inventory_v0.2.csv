@@ -1,0 +1,37 @@
+output_id,category,template,record_type,governing_requirement_ids,used_in_build,reverse_trace_status
+BACKTRACK_EXPLANATION,navigation,We are temporarily checking {focus} before returning to {target}. Return condition: {condition}.,DECISION,UIG-06,True,PASS
+CONSENT_NONSCORED,consent,"This check is only to make sure your rights were explained clearly. It is not part of the study tasks, it is not scored, and there is no penalty for asking for clarification.",DECISION,CONSENT-SUPP-02,True,PASS
+CONSENT_VOLUNTARY,consent,"Participation is voluntary. You can stop at any time, for any reason or no stated reason, without penalty.",DECISION,CONSENT-01,True,PASS
+EVID_CONFLICTING,evidence_state,Conflicting evidence,INFERENCE,UIG-01;UIG-03,False,CATALOG_RESERVED
+EVID_ESTABLISHED,evidence_state,Established,DECISION,UIG-03,False,CATALOG_RESERVED
+EVID_INSUFFICIENT,evidence_state,Insufficient evidence,INFERENCE,UIG-01;UIG-03,False,CATALOG_RESERVED
+EVID_SUPPORTED,evidence_state,"Supported, not established",INFERENCE,UIG-03,False,CATALOG_RESERVED
+HISTORICAL_VALIDATION,history,Previously independently validated on {date}.,DECISION,UIG-09,True,PASS
+MAP_NODE_QUESTION,map_claim,{core_question},MAP_RECORD,UIG-02;UIG-12;CA-INV-01,True,PASS
+MAP_NODE_TITLE,map_claim,{node_id} — {label},MAP_RECORD,UIG-02;UIG-12;CA-INV-01,True,PASS
+MAP_RELATION,map_claim,{relation}: {other_id} — {other_label},MAP_RECORD,UIG-02;UIG-12;CA-INV-01,True,PASS
+NO_GAMING_INFERENCE,learner_correction,"The app does not infer dishonesty, gaming, or avoidance from this self-report pattern.",INFERENCE,UIG-05,True,PASS
+PILOT_NOT_EFFICACY,pilot,"Pilot 01 tests usability, semantic interpretability, and governance integrity. It does not test whether TNPO improves learning.",DECISION,PILOT-01,True,PASS
+PILOT_SCENARIO_LABEL,pilot,"Pilot scenario — synthetic interface state, not a claim about this learner.",OBSERVATION,PILOT-01,True,PASS
+PREREQ_GRAPH_UNAVAILABLE,data_availability,"Prerequisite relations are not present in this bundled map, so the app will not invent a prerequisite claim.",OBSERVATION,UIG-01;UIG-12;MSVO-NO-INVENTED-EDGE,True,PASS
+PROGRESS_EVIDENCE,progress,Evidence: {value},INFERENCE,UIG-03;UIG-10,True,PASS
+PROGRESS_EXPOSURE,progress,Exposure: {value},OBSERVATION,UIG-10,True,PASS
+PROGRESS_PRACTICE,progress,Practice: {value},OBSERVATION,UIG-10,True,PASS
+PROGRESS_RETENTION,progress,Retention: {value},DECISION,UIG-08;UIG-09;UIG-10,True,PASS
+PROGRESS_VALIDATION,progress,Validation: {value},DECISION,UIG-09;UIG-10,True,PASS
+PROV_DECISION,badge,DECISION,DECISION,UIG-02,False,CATALOG_RESERVED
+PROV_INFERENCE,badge,INFERENCE,INFERENCE,UIG-02,False,CATALOG_RESERVED
+PROV_MAP_FACT,badge,MAP FACT,MAP_RECORD,UIG-02,False,CATALOG_RESERVED
+PROV_OBSERVATION,badge,OBSERVATION,OBSERVATION,UIG-02,False,CATALOG_RESERVED
+RETENTION_NOT_TRIGGERED,retention,No governed revalidation-due trigger is active.,OBSERVATION,UIG-08,False,CATALOG_RESERVED
+RETENTION_REVIEW_DUE,retention,Review due under policy {policy_id}. Earlier validation remains in history.,DECISION,UIG-08;UIG-09,True,PASS
+SELF_REPORT_RECORDED,learner_correction,Your correction was recorded as a self-report observation. It did not directly change validation state.,OBSERVATION,UIG-04;UIG-05,True,PASS
+TASK_DIAGNOSTIC,task_role,Diagnostic check — this gathers evidence and is not independent validation.,DECISION,UIG-07,True,PASS
+TASK_PRACTICE,task_role,Practice — hints or support may be used; this does not independently validate the topic.,DECISION,UIG-07,True,PASS
+TASK_VALIDATION,task_role,Independent validation — no hints or outside help may be used.,DECISION,UIG-07,True,PASS
+WHY_CONFLICTING,why_panel,"Current evidence supports more than one interpretation, so the next step is to gather discriminating evidence rather than choose one explanation.",INFERENCE,UIG-01;UIG-03;UIG-11;UIG-12,True,PASS
+WHY_ESTABLISHED,why_panel,Independent validation has been authorized for the displayed scope. Later evidence may still create a retention or transfer concern without rewriting history.,DECISION,UIG-03;UIG-11;UIG-12,True,PASS
+WHY_INSUFFICIENT,why_panel,There is not enough evidence to make a stronger learner-state claim yet.,INFERENCE,UIG-01;UIG-03;UIG-11;UIG-12,True,PASS
+WHY_SUPPORTED,why_panel,"Current evidence supports a reversible next step, but not independent validation.",INFERENCE,UIG-03;UIG-11;UIG-12,True,PASS
+WITHDRAWAL_DEFAULT_DELETE,withdrawal,"If you stop and give no data preference, the default is to exclude your pilot data from analysis and delete participant-level pilot data where technically feasible.",DECISION,CONSENT-SUPP-01,True,PASS
+WITHDRAWAL_NOT_FAILURE,withdrawal,Stopping the pilot is not a learner failure and is not used as evidence about your ability or understanding.,DECISION,CONSENT-03;CONSENT-SUPP-03,True,PASS

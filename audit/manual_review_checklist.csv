@@ -1,0 +1,8 @@
+manual_id,check,requirement,status
+MAN-001,Interface wording: uncertainty language does not exceed evidence authority,UIG-01/UIG-03/UIG-12,PENDING_DEVICE_REVIEW
+MAN-002,Provenance badges visually correspond to deterministic record-type mapping,UIG-02,PENDING_DEVICE_REVIEW
+MAN-003,Cyclic backtracking scenario is understandable without implying learner failure,UIG-06,PENDING_DEVICE_REVIEW
+MAN-004,Practice/diagnostic/validation roles are visibly distinct before response,UIG-07,PENDING_DEVICE_REVIEW
+MAN-005,Progress dimensions do not visually collapse into a mastery score,UIG-10,PENDING_DEVICE_REVIEW
+MAN-006,"Consent/withdrawal copy is readable, voluntary, and visibly non-evaluative",CONSENT v1.0 + SUPPLEMENT v1.0,PENDING_DEVICE_REVIEW
+MAN-007,Touch/focus/layout behavior on iPhone-sized viewport does not obscure focused controls,WCAG 2.2 / device inspection,PENDING_DEVICE_REVIEW

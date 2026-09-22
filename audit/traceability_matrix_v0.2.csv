@@ -1,0 +1,18 @@
+trace_id,direction,requirement_id,spec_document,implementation_component,semantic_output,automated_evidence,manual_evidence,verification_mode,severity_if_failed
+TR-001,FORWARD,CA-INV-01,Conformance Audit v1.0,semantic_catalog.json + semanticText/outputAttr,All semantic outputs,AUTO-006/AUTO-007,MAN-001,DUAL,BLOCKER
+TR-002,FORWARD,CA-INV-02,Conformance Audit v1.0,commitGovernedTransition + db appendEvent,State-changing controls,AUTO-008/AUTO-009/AUTO-010,,AUTOMATED,BLOCKER
+TR-003,FORWARD,UIG-01,Interface Governance v1.0,evidencePresentation + Why dialog,WHY_*,AUTO-002,MAN-001,DUAL,BLOCKER
+TR-004,FORWARD,UIG-02,Interface Governance v1.0,badgeForRecordType + provenanceBadge,PROV_*,AUTO-002/AUTO-006,MAN-002,DUAL,BLOCKER
+TR-005,FORWARD,UIG-03,Interface Governance v1.0,EVIDENCE_STATES + progress/Why rendering,EVID_*,AUTO-002,MAN-001,DUAL,BLOCKER
+TR-006,FORWARD,UIG-04,Interface Governance v1.0,learnerCorrectionEvent + SELF_REPORT append,SELF_REPORT_RECORDED,AUTO-011,,AUTOMATED,BLOCKER
+TR-007,FORWARD,UIG-05,Interface Governance v1.0,NO_GAMING_INFERENCE semantic output,NO_GAMING_INFERENCE,AUTO-006,MAN-001,DUAL,MAJOR
+TR-008,FORWARD,UIG-06,Interface Governance v1.0,Pilot scenario lab PT-02,BACKTRACK_EXPLANATION,AUTO-006,MAN-003,MANUAL,MAJOR
+TR-009,FORWARD,UIG-07,Interface Governance v1.0,Task role cards + validation transition guards,TASK_*,AUTO-002,MAN-004,DUAL,BLOCKER
+TR-010,FORWARD,UIG-08,Interface Governance v1.0,mayDisplayReviewDue,RETENTION_*,AUTO-012/AUTO-002,,AUTOMATED,BLOCKER
+TR-011,FORWARD,UIG-09,Interface Governance v1.0,validation_history + history renderer,HISTORICAL_VALIDATION,AUTO-013/AUTO-002,,AUTOMATED,BLOCKER
+TR-012,FORWARD,UIG-10,Interface Governance v1.0,Progress 5-dimension renderer,PROGRESS_*,AUTO-014,MAN-005,DUAL,BLOCKER
+TR-013,FORWARD,UIG-11,Interface Governance v1.0,Why this step dialog,WHY_*,AUTO-006,MAN-001,DUAL,MAJOR
+TR-014,FORWARD,UIG-12,Interface Governance v1.0,semantic catalog + record badges,All learner claims,AUTO-006/AUTO-007,MAN-001,DUAL,BLOCKER
+TR-015,FORWARD,CONSENT-01,Consent Addendum v1.0,Pilot consent panel,CONSENT_VOLUNTARY,AUTO-015,MAN-006,DUAL,BLOCKER
+TR-016,FORWARD,CONSENT-SUPP-01,Consent Supplement v1.0,withdrawPilotSession default delete,WITHDRAWAL_DEFAULT_DELETE,AUTO-016/AUTO-017,MAN-006,DUAL,BLOCKER
+TR-017,FORWARD,CONSENT-SUPP-02,Consent Supplement v1.0,pilot consent wording,CONSENT_NONSCORED,AUTO-015,MAN-006,DUAL,MAJOR

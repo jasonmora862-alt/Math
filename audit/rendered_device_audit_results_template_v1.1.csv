@@ -1,0 +1,8 @@
+index,manual_id,protocol_version,build_version,build_hash,device_ios,mode,reviewer_id,result,severity,screenshot_reference,context_case_reference,adjudication_rationale,fix_version,notes
+0,MAN-001,1.1,0.2.0,5ffb351b599934a496f5def7a0f62e8a8e78ab08e62cfc7ebb3cffbae251d2a0,,,,NOT_RUN,,,,,,
+1,MAN-002,1.1,0.2.0,5ffb351b599934a496f5def7a0f62e8a8e78ab08e62cfc7ebb3cffbae251d2a0,,,,NOT_RUN,,,,,,
+2,MAN-003,1.1,0.2.0,5ffb351b599934a496f5def7a0f62e8a8e78ab08e62cfc7ebb3cffbae251d2a0,,,,NOT_RUN,,,,,,
+3,MAN-004,1.1,0.2.0,5ffb351b599934a496f5def7a0f62e8a8e78ab08e62cfc7ebb3cffbae251d2a0,,,,NOT_RUN,,,,,,
+4,MAN-005,1.1,0.2.0,5ffb351b599934a496f5def7a0f62e8a8e78ab08e62cfc7ebb3cffbae251d2a0,,,,NOT_RUN,,,,,,
+5,MAN-006,1.1,0.2.0,5ffb351b599934a496f5def7a0f62e8a8e78ab08e62cfc7ebb3cffbae251d2a0,,,,NOT_RUN,,,,,,
+6,MAN-007,1.1,0.2.0,5ffb351b599934a496f5def7a0f62e8a8e78ab08e62cfc7ebb3cffbae251d2a0,,,,NOT_RUN,,,,,,

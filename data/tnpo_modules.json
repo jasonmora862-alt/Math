@@ -1,0 +1,947 @@
+[
+  {
+    "module_id": "P01.01.01",
+    "module_name": "Conceptual explanation",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P01.01",
+    "branch_name": "Explanatory Forms",
+    "root_id": "P01"
+  },
+  {
+    "module_id": "P01.01.02",
+    "module_name": "Procedural explanation",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P01.01",
+    "branch_name": "Explanatory Forms",
+    "root_id": "P01"
+  },
+  {
+    "module_id": "P01.01.03",
+    "module_name": "Mechanistic / causal explanation",
+    "status": "PROVISIONAL_EXTENSION",
+    "note": "Domain-conditional; mechanistic/causal explanation is not meaningful in every domain.",
+    "branch_id": "P01.01",
+    "branch_name": "Explanatory Forms",
+    "root_id": "P01"
+  },
+  {
+    "module_id": "P01.01.04",
+    "module_name": "Comparative / boundary explanation",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P01.01",
+    "branch_name": "Explanatory Forms",
+    "root_id": "P01"
+  },
+  {
+    "module_id": "P01.02.01",
+    "module_name": "Worked example / completed demonstration",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P01.02",
+    "branch_name": "Examples & Modeling",
+    "root_id": "P01"
+  },
+  {
+    "module_id": "P01.02.02",
+    "module_name": "Think-aloud / modeled reasoning",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P01.02",
+    "branch_name": "Examples & Modeling",
+    "root_id": "P01"
+  },
+  {
+    "module_id": "P01.02.03",
+    "module_name": "Example comparison",
+    "status": "PROVISIONAL_EXTENSION",
+    "note": "Potentially a practice/contrast configuration; retain provisionally pending runtime need.",
+    "branch_id": "P01.02",
+    "branch_name": "Examples & Modeling",
+    "root_id": "P01"
+  },
+  {
+    "module_id": "P01.02.04",
+    "module_name": "Counterexample / non-example",
+    "status": "PROVISIONAL_EXTENSION",
+    "note": "Counterexample/non-example is useful but exact module boundary vs comparative explanation needs pressure test.",
+    "branch_id": "P01.02",
+    "branch_name": "Examples & Modeling",
+    "root_id": "P01"
+  },
+  {
+    "module_id": "P01.03.01",
+    "module_name": "Verbal / textual representation",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P01.03",
+    "branch_name": "Representation Coordination",
+    "root_id": "P01"
+  },
+  {
+    "module_id": "P01.03.02",
+    "module_name": "Symbolic / formal representation",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P01.03",
+    "branch_name": "Representation Coordination",
+    "root_id": "P01"
+  },
+  {
+    "module_id": "P01.03.03",
+    "module_name": "Visual / graphical representation",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P01.03",
+    "branch_name": "Representation Coordination",
+    "root_id": "P01"
+  },
+  {
+    "module_id": "P01.03.04",
+    "module_name": "Concrete / contextual representation",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P01.03",
+    "branch_name": "Representation Coordination",
+    "root_id": "P01"
+  },
+  {
+    "module_id": "P01.03.05",
+    "module_name": "Abstract-concrete connection",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P01.03",
+    "branch_name": "Representation Coordination",
+    "root_id": "P01"
+  },
+  {
+    "module_id": "P01.03.06",
+    "module_name": "Multiple-representation coordination",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P01.03",
+    "branch_name": "Representation Coordination",
+    "root_id": "P01"
+  },
+  {
+    "module_id": "P01.04.01",
+    "module_name": "Deep explanatory question",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P01.04",
+    "branch_name": "Explanatory Prompting",
+    "root_id": "P01"
+  },
+  {
+    "module_id": "P01.04.02",
+    "module_name": "Elaboration prompt",
+    "status": "PROVISIONAL_EXTENSION",
+    "note": "Elaboration prompt may collapse into deep explanatory prompting.",
+    "branch_id": "P01.04",
+    "branch_name": "Explanatory Prompting",
+    "root_id": "P01"
+  },
+  {
+    "module_id": "P01.04.03",
+    "module_name": "Compare / contrast prompt",
+    "status": "PROVISIONAL_EXTENSION",
+    "note": "Compare/contrast prompt may collapse into explanatory/comparative prompting.",
+    "branch_id": "P01.04",
+    "branch_name": "Explanatory Prompting",
+    "root_id": "P01"
+  },
+  {
+    "module_id": "P01.04.04",
+    "module_name": "Why / how prompt",
+    "status": "PROVISIONAL_EXTENSION",
+    "note": "Why/how prompt may be a surface realization of deep explanatory prompting.",
+    "branch_id": "P01.04",
+    "branch_name": "Explanatory Prompting",
+    "root_id": "P01"
+  },
+  {
+    "module_id": "P02.01.01",
+    "module_name": "Task / goal orientation",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P02.01",
+    "branch_name": "Orientation, Cueing & Hints",
+    "root_id": "P02"
+  },
+  {
+    "module_id": "P02.01.02",
+    "module_name": "Subgoal cue",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P02.01",
+    "branch_name": "Orientation, Cueing & Hints",
+    "root_id": "P02"
+  },
+  {
+    "module_id": "P02.01.03",
+    "module_name": "Attention / feature cue",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P02.01",
+    "branch_name": "Orientation, Cueing & Hints",
+    "root_id": "P02"
+  },
+  {
+    "module_id": "P02.01.04",
+    "module_name": "Strategy / instrumental hint",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P02.01",
+    "branch_name": "Orientation, Cueing & Hints",
+    "root_id": "P02"
+  },
+  {
+    "module_id": "P02.01.05",
+    "module_name": "Increasing-specificity hint sequence",
+    "status": "PROVISIONAL_EXTENSION",
+    "note": "Increasing-specificity sequence may be a sequencing policy over hints rather than a primitive module.",
+    "branch_id": "P02.01",
+    "branch_name": "Orientation, Cueing & Hints",
+    "root_id": "P02"
+  },
+  {
+    "module_id": "P02.02.01",
+    "module_name": "Partial solution",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P02.02",
+    "branch_name": "Partial Support Structures",
+    "root_id": "P02"
+  },
+  {
+    "module_id": "P02.02.02",
+    "module_name": "Completion frame / template",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P02.02",
+    "branch_name": "Partial Support Structures",
+    "root_id": "P02"
+  },
+  {
+    "module_id": "P02.02.03",
+    "module_name": "Checklist / cue structure",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P02.02",
+    "branch_name": "Partial Support Structures",
+    "root_id": "P02"
+  },
+  {
+    "module_id": "P02.02.04",
+    "module_name": "Graphic / external organizer",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P02.02",
+    "branch_name": "Partial Support Structures",
+    "root_id": "P02"
+  },
+  {
+    "module_id": "P02.03.01",
+    "module_name": "Stepwise guided practice",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P02.03",
+    "branch_name": "Guided Practice",
+    "root_id": "P02"
+  },
+  {
+    "module_id": "P02.03.02",
+    "module_name": "Contingent prompting",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P02.03",
+    "branch_name": "Guided Practice",
+    "root_id": "P02"
+  },
+  {
+    "module_id": "P02.03.03",
+    "module_name": "Error-responsive support",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P02.03",
+    "branch_name": "Guided Practice",
+    "root_id": "P02"
+  },
+  {
+    "module_id": "P02.03.04",
+    "module_name": "Tutor-monitored practice",
+    "status": "PROVISIONAL_EXTENSION",
+    "note": "Tutor-monitored practice may be a runtime supervision mode rather than a pedagogical primitive.",
+    "branch_id": "P02.03",
+    "branch_name": "Guided Practice",
+    "root_id": "P02"
+  },
+  {
+    "module_id": "P02.04.01",
+    "module_name": "Support reduction",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P02.04",
+    "branch_name": "Fading & Release of Support",
+    "root_id": "P02"
+  },
+  {
+    "module_id": "P02.04.02",
+    "module_name": "Prompt fading",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P02.04",
+    "branch_name": "Fading & Release of Support",
+    "root_id": "P02"
+  },
+  {
+    "module_id": "P02.04.03",
+    "module_name": "Guided-to-independent transition",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P02.04",
+    "branch_name": "Fading & Release of Support",
+    "root_id": "P02"
+  },
+  {
+    "module_id": "P02.04.04",
+    "module_name": "Monitor-and-intervene-as-needed",
+    "status": "RETIRED_AS_CANONICAL_MODULE",
+    "note": "Split semantics: 'monitor/intervene trigger' belongs to Tutor Policy; any delivered support is represented by the actual P02 pedagogical action selected.",
+    "branch_id": "P02.04",
+    "branch_name": "Fading & Release of Support",
+    "root_id": "P02"
+  },
+  {
+    "module_id": "P02.05.01",
+    "module_name": "Help availability / resource cue",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P02.05",
+    "branch_name": "Help Access & Help-Seeking Scaffolds",
+    "root_id": "P02"
+  },
+  {
+    "module_id": "P02.05.02",
+    "module_name": "Appropriate-help prompt",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P02.05",
+    "branch_name": "Help Access & Help-Seeking Scaffolds",
+    "root_id": "P02"
+  },
+  {
+    "module_id": "P02.05.03",
+    "module_name": "Help-avoidance intervention",
+    "status": "RETIRED_AS_CANONICAL_MODULE",
+    "note": "Help avoidance is an observed/inferred learner behavior, not a pedagogical action identity. Evidence Model may infer it; Policy selects a P02/P05 response.",
+    "branch_id": "P02.05",
+    "branch_name": "Help Access & Help-Seeking Scaffolds",
+    "root_id": "P02"
+  },
+  {
+    "module_id": "P02.05.04",
+    "module_name": "Help-overuse / answer-seeking intervention",
+    "status": "RETIRED_AS_CANONICAL_MODULE",
+    "note": "Help overuse/answer seeking is an observed/inferred learner behavior. Bottom-out hints may sometimes function as worked examples, so the behavior itself cannot define one universal intervention.",
+    "branch_id": "P02.05",
+    "branch_name": "Help Access & Help-Seeking Scaffolds",
+    "root_id": "P02"
+  },
+  {
+    "module_id": "P03.01.01",
+    "module_name": "Free recall / active retrieval",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P03.01",
+    "branch_name": "Retrieval & Quizzing",
+    "root_id": "P03"
+  },
+  {
+    "module_id": "P03.01.02",
+    "module_name": "Low-stakes quizzing",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P03.01",
+    "branch_name": "Retrieval & Quizzing",
+    "root_id": "P03"
+  },
+  {
+    "module_id": "P03.01.03",
+    "module_name": "Cumulative retrieval",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P03.01",
+    "branch_name": "Retrieval & Quizzing",
+    "root_id": "P03"
+  },
+  {
+    "module_id": "P03.01.04",
+    "module_name": "Pre-questioning / retrieval-oriented activation",
+    "status": "PROVISIONAL_EXTENSION",
+    "note": "Pre-questioning has weaker evidence in the classic IES guide; retain provisionally.",
+    "branch_id": "P03.01",
+    "branch_name": "Retrieval & Quizzing",
+    "root_id": "P03"
+  },
+  {
+    "module_id": "P03.02.01",
+    "module_name": "Delayed review",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P03.02",
+    "branch_name": "Spacing & Distributed Practice",
+    "root_id": "P03"
+  },
+  {
+    "module_id": "P03.02.02",
+    "module_name": "Distributed retrieval",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P03.02",
+    "branch_name": "Spacing & Distributed Practice",
+    "root_id": "P03"
+  },
+  {
+    "module_id": "P03.02.03",
+    "module_name": "Cumulative spaced practice",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P03.02",
+    "branch_name": "Spacing & Distributed Practice",
+    "root_id": "P03"
+  },
+  {
+    "module_id": "P03.03.01",
+    "module_name": "Interleaved problem types",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P03.03",
+    "branch_name": "Interleaving & Discrimination",
+    "root_id": "P03"
+  },
+  {
+    "module_id": "P03.03.02",
+    "module_name": "Contrastive discrimination practice",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P03.03",
+    "branch_name": "Interleaving & Discrimination",
+    "root_id": "P03"
+  },
+  {
+    "module_id": "P03.03.03",
+    "module_name": "Mixed strategy-selection practice",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P03.03",
+    "branch_name": "Interleaving & Discrimination",
+    "root_id": "P03"
+  },
+  {
+    "module_id": "P03.04.01",
+    "module_name": "Guided-to-independent problem solving",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P03.04",
+    "branch_name": "Problem Solving & Generation",
+    "root_id": "P03"
+  },
+  {
+    "module_id": "P03.04.02",
+    "module_name": "Independent problem solving",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P03.04",
+    "branch_name": "Problem Solving & Generation",
+    "root_id": "P03"
+  },
+  {
+    "module_id": "P03.04.03",
+    "module_name": "Generation-before-instruction",
+    "status": "PROVISIONAL_EXTENSION",
+    "note": "Generation-before-instruction is a specific instructional design and not as strongly supported by current core sources.",
+    "branch_id": "P03.04",
+    "branch_name": "Problem Solving & Generation",
+    "root_id": "P03"
+  },
+  {
+    "module_id": "P03.04.04",
+    "module_name": "Completion / construction task",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P03.04",
+    "branch_name": "Problem Solving & Generation",
+    "root_id": "P03"
+  },
+  {
+    "module_id": "P03.05.01",
+    "module_name": "Worked-example study",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P03.05",
+    "branch_name": "Worked-Example / Problem Integration",
+    "root_id": "P03"
+  },
+  {
+    "module_id": "P03.05.02",
+    "module_name": "Example-problem alternation",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P03.05",
+    "branch_name": "Worked-Example / Problem Integration",
+    "root_id": "P03"
+  },
+  {
+    "module_id": "P03.05.03",
+    "module_name": "Faded example / completion problem",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P03.05",
+    "branch_name": "Worked-Example / Problem Integration",
+    "root_id": "P03"
+  },
+  {
+    "module_id": "P03.05.04",
+    "module_name": "Example-to-independent transition",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P03.05",
+    "branch_name": "Worked-Example / Problem Integration",
+    "root_id": "P03"
+  },
+  {
+    "module_id": "P03.06.01",
+    "module_name": "Self-explanation",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P03.06",
+    "branch_name": "Self-Explanation & Reasoning Generation",
+    "root_id": "P03"
+  },
+  {
+    "module_id": "P03.06.02",
+    "module_name": "Deep explanatory response",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P03.06",
+    "branch_name": "Self-Explanation & Reasoning Generation",
+    "root_id": "P03"
+  },
+  {
+    "module_id": "P03.06.03",
+    "module_name": "Justification / reasoning generation",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P03.06",
+    "branch_name": "Self-Explanation & Reasoning Generation",
+    "root_id": "P03"
+  },
+  {
+    "module_id": "P03.06.04",
+    "module_name": "Error explanation",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P03.06",
+    "branch_name": "Self-Explanation & Reasoning Generation",
+    "root_id": "P03"
+  },
+  {
+    "module_id": "P03.07.01",
+    "module_name": "Surface-context variation",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P03.07",
+    "branch_name": "Variation & Transfer-Oriented Activity",
+    "root_id": "P03"
+  },
+  {
+    "module_id": "P03.07.02",
+    "module_name": "Representation variation",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P03.07",
+    "branch_name": "Variation & Transfer-Oriented Activity",
+    "root_id": "P03"
+  },
+  {
+    "module_id": "P03.07.03",
+    "module_name": "Strategy-selection variation",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P03.07",
+    "branch_name": "Variation & Transfer-Oriented Activity",
+    "root_id": "P03"
+  },
+  {
+    "module_id": "P03.07.04",
+    "module_name": "Cross-context / novel composition",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P03.07",
+    "branch_name": "Variation & Transfer-Oriented Activity",
+    "root_id": "P03"
+  },
+  {
+    "module_id": "P03.08.01",
+    "module_name": "Structured collaborative problem solving",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P03.08",
+    "branch_name": "Collaborative & Peer Learning Activities",
+    "root_id": "P03"
+  },
+  {
+    "module_id": "P03.08.02",
+    "module_name": "Cooperative shared-outcome activity",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P03.08",
+    "branch_name": "Collaborative & Peer Learning Activities",
+    "root_id": "P03"
+  },
+  {
+    "module_id": "P03.08.03",
+    "module_name": "Peer explanation / reciprocal teaching",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P03.08",
+    "branch_name": "Collaborative & Peer Learning Activities",
+    "root_id": "P03"
+  },
+  {
+    "module_id": "P03.08.04",
+    "module_name": "Peer tutoring activity",
+    "status": "PROVISIONAL_EXTENSION",
+    "note": "Peer tutoring may warrant a separate agent-role/task architecture because a peer temporarily functions as tutor.",
+    "branch_id": "P03.08",
+    "branch_name": "Collaborative & Peer Learning Activities",
+    "root_id": "P03"
+  },
+  {
+    "module_id": "P04.01.01",
+    "module_name": "Correctness / outcome feedback",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P04.01",
+    "branch_name": "Outcome / Criterion Feedback",
+    "root_id": "P04"
+  },
+  {
+    "module_id": "P04.01.02",
+    "module_name": "Strength identification",
+    "status": "PROVISIONAL_EXTENSION",
+    "note": "Strength identification may be an attribute/content of outcome feedback rather than a distinct module.",
+    "branch_id": "P04.01",
+    "branch_name": "Outcome / Criterion Feedback",
+    "root_id": "P04"
+  },
+  {
+    "module_id": "P04.01.03",
+    "module_name": "Gap / discrepancy identification",
+    "status": "PROVISIONAL_EXTENSION",
+    "note": "Gap/discrepancy identification may be an attribute/content of outcome feedback rather than a distinct module.",
+    "branch_id": "P04.01",
+    "branch_name": "Outcome / Criterion Feedback",
+    "root_id": "P04"
+  },
+  {
+    "module_id": "P04.01.04",
+    "module_name": "Criterion-referenced performance feedback",
+    "status": "PROVISIONAL_EXTENSION",
+    "note": "Criterion-referenced performance may describe the reference frame of feedback rather than a distinct module.",
+    "branch_id": "P04.01",
+    "branch_name": "Outcome / Criterion Feedback",
+    "root_id": "P04"
+  },
+  {
+    "module_id": "P04.02.01",
+    "module_name": "Strategy appropriateness feedback",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P04.02",
+    "branch_name": "Process / Strategy Feedback",
+    "root_id": "P04"
+  },
+  {
+    "module_id": "P04.02.02",
+    "module_name": "Procedure-step feedback",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P04.02",
+    "branch_name": "Process / Strategy Feedback",
+    "root_id": "P04"
+  },
+  {
+    "module_id": "P04.02.03",
+    "module_name": "Method-choice / efficiency feedback",
+    "status": "PROVISIONAL_EXTENSION",
+    "note": "Efficiency/method-choice feedback can be highly domain-specific; retain provisionally.",
+    "branch_id": "P04.02",
+    "branch_name": "Process / Strategy Feedback",
+    "root_id": "P04"
+  },
+  {
+    "module_id": "P04.02.04",
+    "module_name": "Reasoning-process feedback",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P04.02",
+    "branch_name": "Process / Strategy Feedback",
+    "root_id": "P04"
+  },
+  {
+    "module_id": "P04.03.01",
+    "module_name": "Why-wrong feedback",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P04.03",
+    "branch_name": "Explanatory / Error-Specific Feedback",
+    "root_id": "P04"
+  },
+  {
+    "module_id": "P04.03.02",
+    "module_name": "Why-right feedback",
+    "status": "PROVISIONAL_EXTENSION",
+    "note": "Why-right feedback may collapse into explanatory feedback generally.",
+    "branch_id": "P04.03",
+    "branch_name": "Explanatory / Error-Specific Feedback",
+    "root_id": "P04"
+  },
+  {
+    "module_id": "P04.03.03",
+    "module_name": "Error-location feedback",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P04.03",
+    "branch_name": "Explanatory / Error-Specific Feedback",
+    "root_id": "P04"
+  },
+  {
+    "module_id": "P04.03.04",
+    "module_name": "Evidence-supported misconception-sensitive feedback",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P04.03",
+    "branch_name": "Explanatory / Error-Specific Feedback",
+    "root_id": "P04"
+  },
+  {
+    "module_id": "P04.04.01",
+    "module_name": "Confidence-calibration feedback",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P04.04",
+    "branch_name": "Self-Regulation, Calibration & Actionable Improvement Feedback",
+    "root_id": "P04"
+  },
+  {
+    "module_id": "P04.04.02",
+    "module_name": "Strategy-monitoring feedback",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P04.04",
+    "branch_name": "Self-Regulation, Calibration & Actionable Improvement Feedback",
+    "root_id": "P04"
+  },
+  {
+    "module_id": "P04.04.03",
+    "module_name": "Help-seeking / resource-use feedback",
+    "status": "PROVISIONAL_EXTENSION",
+    "note": "Help/resource-use feedback overlaps strongly with P05.05; function boundary requires runtime pressure test.",
+    "branch_id": "P04.04",
+    "branch_name": "Self-Regulation, Calibration & Actionable Improvement Feedback",
+    "root_id": "P04"
+  },
+  {
+    "module_id": "P04.04.04",
+    "module_name": "Specific improvement / next-step feedback",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P04.04",
+    "branch_name": "Self-Regulation, Calibration & Actionable Improvement Feedback",
+    "root_id": "P04"
+  },
+  {
+    "module_id": "P05.01.01",
+    "module_name": "Goal decomposition",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P05.01",
+    "branch_name": "Planning Support",
+    "root_id": "P05"
+  },
+  {
+    "module_id": "P05.01.02",
+    "module_name": "Task analysis",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P05.01",
+    "branch_name": "Planning Support",
+    "root_id": "P05"
+  },
+  {
+    "module_id": "P05.01.03",
+    "module_name": "Strategy planning",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P05.01",
+    "branch_name": "Planning Support",
+    "root_id": "P05"
+  },
+  {
+    "module_id": "P05.01.04",
+    "module_name": "Resource planning",
+    "status": "PROVISIONAL_EXTENSION",
+    "note": "Resource planning may overlap with P05.05 resource regulation.",
+    "branch_id": "P05.01",
+    "branch_name": "Planning Support",
+    "root_id": "P05"
+  },
+  {
+    "module_id": "P05.02.01",
+    "module_name": "Comprehension monitoring",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P05.02",
+    "branch_name": "Monitoring Support",
+    "root_id": "P05"
+  },
+  {
+    "module_id": "P05.02.02",
+    "module_name": "Progress monitoring",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P05.02",
+    "branch_name": "Monitoring Support",
+    "root_id": "P05"
+  },
+  {
+    "module_id": "P05.02.03",
+    "module_name": "Confidence / judgment-of-learning prompt",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P05.02",
+    "branch_name": "Monitoring Support",
+    "root_id": "P05"
+  },
+  {
+    "module_id": "P05.02.04",
+    "module_name": "Strategy-effectiveness check",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P05.02",
+    "branch_name": "Monitoring Support",
+    "root_id": "P05"
+  },
+  {
+    "module_id": "P05.03.01",
+    "module_name": "Post-task reflection",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P05.03",
+    "branch_name": "Evaluation & Reflection Support",
+    "root_id": "P05"
+  },
+  {
+    "module_id": "P05.03.02",
+    "module_name": "Error reflection",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P05.03",
+    "branch_name": "Evaluation & Reflection Support",
+    "root_id": "P05"
+  },
+  {
+    "module_id": "P05.03.03",
+    "module_name": "Strategy evaluation",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P05.03",
+    "branch_name": "Evaluation & Reflection Support",
+    "root_id": "P05"
+  },
+  {
+    "module_id": "P05.03.04",
+    "module_name": "Planned-vs-actual comparison",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P05.03",
+    "branch_name": "Evaluation & Reflection Support",
+    "root_id": "P05"
+  },
+  {
+    "module_id": "P05.04.01",
+    "module_name": "Identify material needing further study",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P05.04",
+    "branch_name": "Strategy, Study & Time Regulation",
+    "root_id": "P05"
+  },
+  {
+    "module_id": "P05.04.02",
+    "module_name": "Study-time allocation",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P05.04",
+    "branch_name": "Strategy, Study & Time Regulation",
+    "root_id": "P05"
+  },
+  {
+    "module_id": "P05.04.03",
+    "module_name": "Spacing / review planning",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P05.04",
+    "branch_name": "Strategy, Study & Time Regulation",
+    "root_id": "P05"
+  },
+  {
+    "module_id": "P05.04.04",
+    "module_name": "Priority / strategy adjustment",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P05.04",
+    "branch_name": "Strategy, Study & Time Regulation",
+    "root_id": "P05"
+  },
+  {
+    "module_id": "P05.05.01",
+    "module_name": "Recognize need for help",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P05.05",
+    "branch_name": "Help-Seeking & Resource Regulation",
+    "root_id": "P05"
+  },
+  {
+    "module_id": "P05.05.02",
+    "module_name": "Select appropriate help level/resource",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P05.05",
+    "branch_name": "Help-Seeking & Resource Regulation",
+    "root_id": "P05"
+  },
+  {
+    "module_id": "P05.05.03",
+    "module_name": "Avoid premature answer seeking",
+    "status": "CORE_MODULE_CANDIDATE",
+    "note": "",
+    "branch_id": "P05.05",
+    "branch_name": "Help-Seeking & Resource Regulation",
+    "root_id": "P05"
+  },
+  {
+    "module_id": "P05.05.04",
+    "module_name": "Evaluate whether help resolved the gap",
+    "status": "PROVISIONAL_EXTENSION",
+    "note": "Evaluate whether help resolved the gap may belong under reflection/evaluation P05.03.",
+    "branch_id": "P05.05",
+    "branch_name": "Help-Seeking & Resource Regulation",
+    "root_id": "P05"
+  }
+]
