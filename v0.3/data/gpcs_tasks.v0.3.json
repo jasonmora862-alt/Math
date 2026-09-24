@@ -1,0 +1,55 @@
+{
+  "gpcs_id": "GPCS_v0.3.1",
+  "domain_map_id": "MSVO_CANONICAL",
+  "domain_map_version": "v0.3.0",
+  "note": "Governed Pilot Content Slice: 3 targets, each bound to the NARROWEST correct canonical node under 02.01 (Elementary & Arithmetic Number Theory). No elementary task touches 02.02 (Algebraic NT) or 02.03 (Analytic NT). Content is domain-correct (STL-B); evaluators deterministic; not LLM-generated. [B1]",
+  "targets": [
+    {
+      "target_id": "T1",
+      "node_id": "02.01.01",
+      "title": "Divisibility, primes & congruences",
+      "tasks": [
+        { "task_id": "T1-P1", "task_version": "1", "validation_role": "PRACTICE", "support_policy": "HINTS_ALLOWED", "tool_policy": "ALLOWED", "response_format": "integer", "prompt": "Compute gcd(12, 18).", "content_context": "divisibility/gcd", "answer": 6, "generator_provenance": "authored:v0.3", "evidence_model_ref": "EM_v1.0", "scoring_model_ref": "exact_integer" },
+        { "task_id": "T1-P2", "task_version": "1", "validation_role": "PRACTICE", "support_policy": "HINTS_ALLOWED", "tool_policy": "ALLOWED", "response_format": "integer", "prompt": "Compute gcd(8, 20).", "content_context": "divisibility/gcd", "answer": 4, "generator_provenance": "authored:v0.3", "evidence_model_ref": "EM_v1.0", "scoring_model_ref": "exact_integer" },
+        { "task_id": "T1-CONFLICT", "task_version": "1", "validation_role": "DIAGNOSTIC_CHECK", "is_conflict_session": true, "support_policy": "NO_HINTS_FOR_SIGNAL", "tool_policy": "DISALLOWED", "response_format": "integer", "generator_provenance": "authored:v0.3", "evidence_model_ref": "EM_v1.0", "scoring_model_ref": "conflict_signature",
+          "inferential_question": "Which remainder convention is the learner applying for a negative dividend? (congruences)",
+          "hypotheses": [ { "id": "euclidean_nonneg", "label": "non-negative (Euclidean) remainder in [0, n)" }, { "id": "truncated_sign", "label": "sign-following (truncated) remainder" } ],
+          "incompatible_pairs": [ ["euclidean_nonneg", "truncated_sign"] ],
+          "probes": [
+            { "probe_id": "Q1", "prompt": "Compute the remainder of -7 divided by 3 (give one integer).", "signatures": { "2": ["euclidean_nonneg"], "-1": ["truncated_sign"] } },
+            { "probe_id": "Q2", "prompt": "Compute the remainder of -8 divided by 3 (give one integer).", "signatures": { "1": ["euclidean_nonneg"], "-2": ["truncated_sign"] } }
+          ] },
+        { "task_id": "T1-RESOLVE", "task_version": "1", "validation_role": "DIAGNOSTIC_CHECK", "is_resolution": true, "support_policy": "NO_HINTS_FOR_SIGNAL", "tool_policy": "DISALLOWED", "response_format": "integer", "generator_provenance": "authored:v0.3", "evidence_model_ref": "EM_v1.0", "scoring_model_ref": "conflict_signature",
+          "inferential_question": "Disambiguate the remainder convention with one more probe.",
+          "hypotheses": [ { "id": "euclidean_nonneg", "label": "non-negative (Euclidean) remainder" }, { "id": "truncated_sign", "label": "sign-following (truncated) remainder" } ],
+          "incompatible_pairs": [ ["euclidean_nonneg", "truncated_sign"] ],
+          "probes": [ { "probe_id": "R1", "prompt": "Compute the remainder of -5 divided by 4 (give one integer).", "signatures": { "3": ["euclidean_nonneg"], "-1": ["truncated_sign"] } } ] },
+        { "task_id": "T1-V1", "task_version": "1", "validation_role": "INDEPENDENT_VALIDATION", "support_policy": "NO_SUPPORT", "tool_policy": "DISALLOWED", "response_format": "integer", "prompt": "Without hints or tools, compute gcd(48, 36).", "content_context": "divisibility/gcd", "answer": 12, "generator_provenance": "authored:v0.3", "evidence_model_ref": "EM_v1.0", "scoring_model_ref": "exact_integer", "evaluator_id": "GOV_EVAL_v0.3", "policy_id": "VALIDATION_POLICY_v0.3" },
+        { "task_id": "T1-TR1", "task_version": "1", "validation_role": "DIAGNOSTIC_CHECK", "support_policy": "NO_HINTS_FOR_SIGNAL", "tool_policy": "DISALLOWED", "response_format": "integer", "prompt": "Transfer check: compute gcd(1071, 462) using the Euclidean algorithm.", "content_context": "transfer; larger operands; gcd=21", "answer": 21, "generator_provenance": "authored:v0.3", "evidence_model_ref": "EM_v1.0", "scoring_model_ref": "exact_integer", "transfer_characteristics": "changed-context/larger-operands", "is_transfer_check": true },
+        { "task_id": "T1-TR2", "task_version": "1", "validation_role": "DIAGNOSTIC_CHECK", "support_policy": "NO_HINTS_FOR_SIGNAL", "tool_policy": "DISALLOWED", "response_format": "integer", "prompt": "Transfer re-check: compute gcd(1147, 851) using the Euclidean algorithm.", "content_context": "transfer re-check; 1147=31*37, 851=23*37, gcd=37", "answer": 37, "generator_provenance": "authored:v0.3", "evidence_model_ref": "EM_v1.0", "scoring_model_ref": "exact_integer", "transfer_characteristics": "changed-context/larger-operands", "is_transfer_check": true, "is_recheck_only": true }
+      ]
+    },
+    {
+      "target_id": "T2",
+      "node_id": "02.01.02",
+      "title": "Arithmetic functions & multiplicative structure",
+      "tasks": [
+        { "task_id": "T2-P1", "task_version": "1", "validation_role": "PRACTICE", "support_policy": "HINTS_ALLOWED", "tool_policy": "ALLOWED", "response_format": "integer", "prompt": "How many positive divisors does 12 have?", "content_context": "d(12): 12=2^2*3 -> (2+1)(1+1)=6", "answer": 6, "generator_provenance": "authored:v0.3", "evidence_model_ref": "EM_v1.0", "scoring_model_ref": "exact_integer" },
+        { "task_id": "T2-P2", "task_version": "1", "validation_role": "PRACTICE", "support_policy": "HINTS_ALLOWED", "tool_policy": "ALLOWED", "response_format": "integer", "prompt": "Compute Euler's totient phi(10).", "content_context": "phi(10)=4 (1,3,7,9)", "answer": 4, "generator_provenance": "authored:v0.3", "evidence_model_ref": "EM_v1.0", "scoring_model_ref": "exact_integer" },
+        { "task_id": "T2-D1", "task_version": "1", "validation_role": "DIAGNOSTIC_CHECK", "support_policy": "NO_HINTS_FOR_SIGNAL", "tool_policy": "DISALLOWED", "response_format": "boolean", "prompt": "For coprime a and b, does d(ab) = d(a)*d(b) for the number-of-divisors function? (yes/no)", "content_context": "d is multiplicative", "answer": true, "generator_provenance": "authored:v0.3", "evidence_model_ref": "EM_v1.0", "scoring_model_ref": "exact_boolean" },
+        { "task_id": "T2-V1", "task_version": "1", "validation_role": "INDEPENDENT_VALIDATION", "support_policy": "NO_SUPPORT", "tool_policy": "DISALLOWED", "response_format": "integer", "prompt": "Without hints or tools, how many positive divisors does 36 have?", "content_context": "36=2^2*3^2 -> 3*3=9", "answer": 9, "generator_provenance": "authored:v0.3", "evidence_model_ref": "EM_v1.0", "scoring_model_ref": "exact_integer", "evaluator_id": "GOV_EVAL_v0.3", "policy_id": "VALIDATION_POLICY_v0.3" }
+      ]
+    },
+    {
+      "target_id": "T3",
+      "node_id": "02.01.03",
+      "title": "Quadratic residues & elementary Diophantine",
+      "tasks": [
+        { "task_id": "T3-P1", "task_version": "1", "validation_role": "PRACTICE", "support_policy": "HINTS_ALLOWED", "tool_policy": "ALLOWED", "response_format": "boolean", "prompt": "Is 2 a quadratic residue mod 7? (yes/no)", "content_context": "squares mod 7 = {1,2,4}; 3^2=9=2", "answer": true, "generator_provenance": "authored:v0.3", "evidence_model_ref": "EM_v1.0", "scoring_model_ref": "exact_boolean" },
+        { "task_id": "T3-P2", "task_version": "1", "validation_role": "PRACTICE", "support_policy": "HINTS_ALLOWED", "tool_policy": "ALLOWED", "response_format": "integer", "prompt": "Solve 3x = 1 (mod 7). Give x in 0..6.", "content_context": "3*5=15=1 mod 7 -> x=5", "answer": 5, "generator_provenance": "authored:v0.3", "evidence_model_ref": "EM_v1.0", "scoring_model_ref": "exact_integer" },
+        { "task_id": "T3-D1", "task_version": "1", "validation_role": "DIAGNOSTIC_CHECK", "support_policy": "NO_HINTS_FOR_SIGNAL", "tool_policy": "DISALLOWED", "response_format": "boolean", "prompt": "Is 3 a quadratic residue mod 7? (yes/no)", "content_context": "3 not in {1,2,4}", "answer": false, "generator_provenance": "authored:v0.3", "evidence_model_ref": "EM_v1.0", "scoring_model_ref": "exact_boolean" },
+        { "task_id": "T3-V1", "task_version": "1", "validation_role": "INDEPENDENT_VALIDATION", "support_policy": "NO_SUPPORT", "tool_policy": "DISALLOWED", "response_format": "integer", "prompt": "Without hints or tools, solve 4x = 2 (mod 6). Give the smallest non-negative x.", "content_context": "gcd(4,6)=2|2; x = 2 or 5; smallest = 2", "answer": 2, "generator_provenance": "authored:v0.3", "evidence_model_ref": "EM_v1.0", "scoring_model_ref": "exact_integer", "evaluator_id": "GOV_EVAL_v0.3", "policy_id": "VALIDATION_POLICY_v0.3" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#08101f" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="MSVO Tutor" />
+  <meta name="description" content="Local-first MSVO/TNPO learning navigator with a governed, perceivable learner loop (v0.3)." />
+  <title>MSVO Tutor · TNPO Navigator v0.3</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#app">Skip to content</a>
+
+  <header class="topbar">
+    <div class="brand-block">
+      <div class="eyebrow">MSVO × TNPO</div>
+      <div class="brand-title">Learning Navigator <span class="ver">v0.3</span></div>
+    </div>
+    <div class="top-actions">
+      <span id="afmBadge" class="mini-status afm hidden" aria-live="polite">AUDIT FIXTURE MODE</span>
+      <span id="connectionBadge" class="mini-status" aria-live="polite">·</span>
+    </div>
+  </header>
+
+  <!-- visible feedback (toasts) + additive screen-reader region -->
+  <div id="toastRoot" class="toast-root" aria-hidden="false"></div>
+  <div id="statusAnnouncer" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <main id="app" tabindex="-1">
+    <!-- LEARN -->
+    <section id="view-learn" class="view active" aria-labelledby="learnTitle">
+      <div class="hero-simple">
+        <div class="eyebrow">LEARN</div>
+        <h1 id="learnTitle">What do you want to learn?</h1>
+        <p class="lede">Pick a target. The app keeps the map, your evidence, and its teaching decisions separate — and always tells you what changed.</p>
+      </div>
+      <div id="learnBody"><!-- rendered: loading / no-target / resume / session --></div>
+    </section>
+
+    <!-- MAP -->
+    <section id="view-map" class="view" aria-labelledby="mapTitle">
+      <div class="view-head">
+        <div><div class="eyebrow">MAP</div><h1 id="mapTitle">Explore the map</h1>
+          <p class="muted">The topic hierarchy comes from the authoritative map. A prerequisite appears only where a governed, provenance-backed prerequisite relation exists.</p></div>
+        <span id="mapCount" class="badge neutral"></span>
+      </div>
+      <div class="map-layout">
+        <div id="mapTree" class="map-tree"></div>
+        <aside id="mapDetail" class="card detail-panel empty-state">Select a topic.</aside>
+      </div>
+    </section>
+
+    <!-- PROGRESS -->
+    <section id="view-progress" class="view" aria-labelledby="progressTitle">
+      <div class="view-head">
+        <div><div class="eyebrow">PROGRESS</div><h1 id="progressTitle">What the evidence supports</h1>
+          <p class="muted">Five separate dimensions. No single mastery score.</p></div>
+      </div>
+      <div id="progressOverview" class="stat-grid"></div>
+      <div id="progressList" class="result-list"></div>
+    </section>
+
+    <!-- MORE -->
+    <section id="view-more" class="view" aria-labelledby="moreTitle">
+      <div class="view-head"><div><div class="eyebrow">MORE</div><h1 id="moreTitle">Labels, consent & audit</h1></div></div>
+
+      <details class="card" open>
+        <summary><strong>Why these labels?</strong><span>Evidence + provenance</span></summary>
+        <div class="details-body">
+          <div class="legend-grid">
+            <div><span class="claim-badge map">MAP FACT</span><p>From the authoritative bundled map/version.</p></div>
+            <div><span class="claim-badge obs">OBSERVATION</span><p>Records something that happened or was reported.</p></div>
+            <div><span class="claim-badge inf">INFERENCE</span><p>A conclusion drawn from evidence; can stay uncertain.</p></div>
+            <div><span class="claim-badge dec">DECISION</span><p>A governed runtime/policy authorization.</p></div>
+          </div>
+          <div id="evidenceLegend" class="legend-list"></div>
+        </div>
+      </details>
+
+      <details class="card">
+        <summary><strong>Pilot mode</strong><span>Consent + withdrawal</span></summary>
+        <div class="details-body" id="pilotBody"></div>
+      </details>
+
+      <details class="card">
+        <summary><strong>Audit fixture mode</strong><span>Deterministic preflight — not a learner</span></summary>
+        <div class="details-body" id="afmBody"></div>
+      </details>
+
+      <details class="card">
+        <summary><strong>Research status</strong><span>What is and isn't proven</span></summary>
+        <div class="details-body" id="researchStatus"></div>
+      </details>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Main navigation">
+    <button data-nav="learn" class="nav-btn active" type="button"><span aria-hidden="true">◉</span><small>Learn</small></button>
+    <button data-nav="map" class="nav-btn" type="button"><span aria-hidden="true">⌘</span><small>Map</small></button>
+    <button data-nav="progress" class="nav-btn" type="button"><span aria-hidden="true">▤</span><small>Progress</small></button>
+    <button data-nav="more" class="nav-btn" type="button"><span aria-hidden="true">•••</span><small>More</small></button>
+  </nav>
+
+  <!-- Learner correction / self-report -->
+  <dialog id="correctionDialog" class="sheet-dialog">
+    <form method="dialog" class="dialog-card" id="correctionForm">
+      <div class="section-title-row align-start">
+        <div><div class="eyebrow">LEARNER CORRECTION</div><h2>Tell the app what it missed</h2></div>
+        <button class="icon-btn" value="cancel" aria-label="Close">×</button>
+      </div>
+      <p class="muted small">Your selection is recorded as a self-report observation (evidence). It does not directly change your validation state.</p>
+      <fieldset class="choice-list" id="correctionChoices"><legend class="sr-only">Choose a correction</legend></fieldset>
+      <textarea id="correctionNote" class="text-input" placeholder="Optional note" style="min-height:80px"></textarea>
+      <div class="button-row top-gap">
+        <button id="saveCorrectionBtn" class="primary-btn" type="button">Record self-report</button>
+        <button class="ghost-btn" value="cancel">Cancel</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Why this step -->
+  <dialog id="whyDialog" class="sheet-dialog">
+    <form method="dialog" class="dialog-card">
+      <div class="section-title-row align-start">
+        <div><div class="eyebrow">TRANSPARENCY</div><h2>Why this step?</h2></div>
+        <button class="icon-btn" value="cancel" aria-label="Close">×</button>
+      </div>
+      <div id="whyEvidenceState"></div>
+      <div class="why-grid">
+        <section><div class="why-label">What we know</div><div id="whyKnow" class="why-content"></div></section>
+        <section><div class="why-label">What we observed</div><div id="whyObserved" class="why-content"></div></section>
+        <section><div class="why-label">What remains uncertain</div><div id="whyUncertain" class="why-content"></div></section>
+        <section><div class="why-label">Why the next step is allowed</div><div id="whyDecision" class="why-content"></div></section>
+      </div>
+      <button class="primary-btn full-btn" value="cancel">Done</button>
+    </form>
+  </dialog>
+
+  <script src="app.js" type="module"></script>
+</body>
+</html>

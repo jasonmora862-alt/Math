@@ -1,0 +1,32 @@
+{
+  "domain_map_id": "GPCS_PREREQ_SLICE",
+  "domain_map_version": "v0.3.0",
+  "isolation_note": "Separately-governed prerequisite slice. NOT injected into the ordinary MSVO canonical map (which keeps REQUIRES=0). Its own domain_map_id. [V03-MAP-020/021]",
+  "nodes": [
+    { "node_id": "SLICE.A", "label": "Division with remainder (divisibility)", "node_type": "SLICE_TOPIC", "core_question": "Given integers a and b>0, what are the quotient and remainder, and what does b | a mean?" },
+    { "node_id": "SLICE.B", "label": "Euclidean algorithm for gcd", "node_type": "SLICE_TOPIC", "core_question": "How does repeated remainder-taking compute gcd(a,b)?" }
+  ],
+  "requires_edges": [
+    {
+      "edge_id": "REQ-SLICE-001",
+      "source": "SLICE.B",
+      "target": "SLICE.A",
+      "relation": "REQUIRES",
+      "classification": "GENUINE_PROVENANCE_BACKED_REQUIRES",
+      "relation_definition": "SLICE.B (Euclidean algorithm) REQUIRES SLICE.A (division-with-remainder / divisibility): the algorithm is DEFINED by repeatedly replacing (a,b) with (b, a mod b); without the remainder operation of SLICE.A the procedure of SLICE.B cannot be stated or executed.",
+      "source_evidence": "Standard number theory: the Euclidean algorithm's each step is a = b*q + r with 0<=r<b (the division algorithm). The gcd recursion gcd(a,b)=gcd(b, a mod b) is stated in terms of the remainder operation.",
+      "evidence_classification": "DEFINITIONAL_DEPENDENCY (the later concept is constructed from the earlier one)",
+      "genuine_prerequisite_justification": "This is a definitional/constructive dependency, NOT: (a) PART_OF containment — neither topic contains the other; (b) recommended teaching order — the dependency is logical, not pedagogical convenience; (c) institutional packaging; (d) a progression level; (e) a common teaching sequence. B literally cannot be performed without the remainder operation of A.",
+      "domain_map_id": "GPCS_PREREQ_SLICE",
+      "domain_map_version": "v0.3.0",
+      "date": "2026-09-22",
+      "freeze_before_MAN_result": true
+    }
+  ],
+  "slice_tasks": [
+    { "task_id": "SLICE-A-P1", "node_id": "SLICE.A", "task_version": "1", "validation_role": "PRACTICE", "support_policy": "HINTS_ALLOWED", "tool_policy": "ALLOWED", "response_format": "integer", "prompt": "What is the remainder when 17 is divided by 5?", "answer": 2, "generator_provenance": "authored:v0.3", "evidence_model_ref": "EM_v1.0", "scoring_model_ref": "exact_integer" },
+    { "task_id": "SLICE-A-P2", "node_id": "SLICE.A", "task_version": "1", "validation_role": "PRACTICE", "support_policy": "HINTS_ALLOWED", "tool_policy": "ALLOWED", "response_format": "integer", "prompt": "What is the remainder when 23 is divided by 4?", "answer": 3, "generator_provenance": "authored:v0.3", "evidence_model_ref": "EM_v1.0", "scoring_model_ref": "exact_integer" },
+    { "task_id": "SLICE-A-V1", "node_id": "SLICE.A", "task_version": "1", "validation_role": "INDEPENDENT_VALIDATION", "support_policy": "NO_SUPPORT", "tool_policy": "DISALLOWED", "response_format": "integer", "prompt": "Without hints, what is the remainder when 100 is divided by 7?", "answer": 2, "generator_provenance": "authored:v0.3", "evidence_model_ref": "EM_v1.0", "scoring_model_ref": "exact_integer", "evaluator_id": "GOV_EVAL_v0.3", "policy_id": "VALIDATION_POLICY_v0.3" },
+    { "task_id": "SLICE-B-P1", "node_id": "SLICE.B", "task_version": "1", "validation_role": "PRACTICE", "support_policy": "HINTS_ALLOWED", "tool_policy": "ALLOWED", "response_format": "integer", "prompt": "Using the Euclidean algorithm, compute gcd(48, 18).", "answer": 6, "generator_provenance": "authored:v0.3", "evidence_model_ref": "EM_v1.0", "scoring_model_ref": "exact_integer" }
+  ]
+}

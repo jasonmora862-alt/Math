@@ -1,0 +1,106 @@
+{
+  "build_version": "0.3.0",
+  "runtime_version": "0.3.0",
+  "build_hash_sha256": "ca1923eb1417069146b457a8a27f66d5887393ced440c893d2f9e09961aa13d7",
+  "candidate_hash_label": "H_c^(5)",
+  "build_hash_method": "SHA-256 of UTF-8 lines path:sha256n sorted by path over the v0.3 runtime artifact closure (app-root-relative paths; THIS manifest excluded). Identical algorithm to v0.2 and H_c^(1..3). The closure is independently discoverable from index.html script/style refs, static/dynamic imports and fetched data (tests/v0.3/manifest.test.mjs::discoverClosure) and equals the v0.3/ tree minus this manifest. Canonical bytes = committed git blobs at runtime_source_commit (working tree == blob verified; LF only).",
+  "runtime_source_commit": "e5c284cedc76b26ab76cd5558f0b3a11679643f7",
+  "implemented_against_spec": "TNPO_MSVO_V0_3_IMPLEMENTATION_SPEC_v1.2_FROZEN + TNPO_MSVO_V0_3_ACCEPTANCE_TEST_REGISTER_v1.2.1_FROZEN_ERRATUM (normative precedence chain v1.0 -> v1.1 -> v1.2 -> v1.2.1)",
+  "spec_chain": [
+    {
+      "file": "TNPO_MSVO_V0_3_IMPLEMENTATION_SPEC_v1.0_FROZEN.md",
+      "sha256": "eff7df88b4168773d3ee802704c9623816410ab26bffc85870889474b0ee4898"
+    },
+    {
+      "file": "TNPO_MSVO_V0_3_ACCEPTANCE_TEST_REGISTER_v1.0_FROZEN.md",
+      "sha256": "c4cec32219f8d6e08bb38489c92e9bfde873b61a860868dfde2f18b9b5d7b2d5"
+    },
+    {
+      "file": "TNPO_MSVO_V0_2_PILOT_STOP_RECORD_v1.0_FROZEN.md",
+      "sha256": "f619823bc026a7ebd227c915b2607beb34d8238759881710ffbb6a7086eaeaec"
+    },
+    {
+      "file": "TNPO_MSVO_V0_3_SPEC_v1.1_CHANGE_RECORD.md",
+      "sha256": "077bfedb75ed2b5909f0d0faf025121c77d4d4a26306b1b08c6a26b0ba43cf70"
+    },
+    {
+      "file": "TNPO_MSVO_V0_3_IMPLEMENTATION_SPEC_v1.1_FROZEN.md",
+      "sha256": "a4e7a8cc35cebd6bd9b7604246daf8f49c5ed9108b857374367d13c6bdcac665"
+    },
+    {
+      "file": "TNPO_MSVO_V0_3_ACCEPTANCE_TEST_REGISTER_v1.1_FROZEN.md",
+      "sha256": "52c3c470734397ba64511e0a4788199e66d0e0ac2929ddec5a60243e0dd78b1c"
+    },
+    {
+      "file": "TNPO_MSVO_V0_2_PILOT_STOP_RECORD_v1.1_FROZEN.md",
+      "sha256": "3b4576e757055c9f018632f64fafce7817823064f4fb0fd8f232d41878a1fa5e"
+    },
+    {
+      "file": "TNPO_MSVO_V0_3_SPEC_v1.2_CHANGE_RECORD.md",
+      "sha256": "25cdf1f24dd23015eeb547bf2a58c240f6e20788e8cb55bac3f2924a30b93009"
+    },
+    {
+      "file": "TNPO_MSVO_V0_3_IMPLEMENTATION_SPEC_v1.2_FROZEN.md",
+      "sha256": "93fdce930a35f488da15a4e148a65bab5f1c4738323ed3184a055fc7a7457457"
+    },
+    {
+      "file": "TNPO_MSVO_V0_2_PILOT_STOP_RECORD_v1.2_FROZEN.md",
+      "sha256": "4590e503d5aa29eb6e86a7fc43c316ba399610937db8ee973b3a4157e7c38b7b"
+    },
+    {
+      "file": "TNPO_MSVO_V0_3_ACCEPTANCE_TEST_REGISTER_v1.2_FROZEN.md",
+      "sha256": "f9d5f8ff0d90ef098dbbf37d2f5077288589357b453872df06e93c2eb2b2a709"
+    },
+    {
+      "file": "TNPO_MSVO_V0_3_SPEC_v1.2.1_ERRATUM_CHANGE_RECORD.md",
+      "sha256": "4ff87032750e7326cd8566aa7fb4ca3141893e484232b10e1e30efaa550ecef5"
+    },
+    {
+      "file": "TNPO_MSVO_V0_3_ACCEPTANCE_TEST_REGISTER_v1.2.1_FROZEN_ERRATUM.md",
+      "sha256": "6b00c684f90c2b5a80813ca4e0dfab7845a8101c0812aa341f3729181d148b54"
+    },
+    {
+      "file": "TNPO_MSVO_v1.2_v1.2.1_ERRATUM_SHA256.txt",
+      "sha256": "55a5ce6dd0d2bc1b3402f0b74e6a22b570dbcd98cb3b94db426047bd5a7268cf"
+    }
+  ],
+  "architectural_contract": "docs/v0.3-candidate/H_c_4_ARCHITECTURAL_REMEDIATION_CONTRACT.md (non-normative; preserved) + docs/v0.3-candidate/H_c_5_REMEDIATION_CONTRACT.md (non-normative engineering contract)",
+  "database": {
+    "name": "tnpo-msvo-navigator-v0_3",
+    "version": 2,
+    "schema_change": true,
+    "previous_version": 1,
+    "change": "adds object stores pilotLearnerState {keyPath:[participant_id,node_id]}, pilotEvents {keyPath:[participant_id,event_id]}, pilotAdmin {keyPath:participant_id}; no existing store/keyPath/index changed; upgrade from v1 adds derived task_exposure indexes rebuilt from existing ledgers",
+    "migration_plan": "docs/v0.3-candidate/H_c_5_REMEDIATION_CONTRACT.md §4 (C2)"
+  },
+  "v0_2_runtime_hash": "5ffb351b599934a496f5def7a0f62e8a8e78ab08e62cfc7ebb3cffbae251d2a0",
+  "rejected_candidates": {
+    "H_c^(1)": "0e3a2b0c8bab743f0c349806001618a669fdf8ba14d668a47aec94819f0b9af1",
+    "H_c^(2)": "bef198d0e2fb0e522cfce8be01a04705139c9c2bcb83fbbe1dba7c72cc2fcfcb",
+    "H_c^(3)": "86727643fa14074da885804ee658ab71b11650c9aced5b898f9d637355e78dac",
+    "H_c^(4)": "33cf3cfdda1eef9b3ea93f2c3833f6dd4b733bb22a6771a0299c4a12b05e3572"
+  },
+  "runtime_file_count": 17,
+  "files": {
+    "app.js": "188626de610408282bb01e2726323b4dc162f941c29400fe514e36158892d136",
+    "core/afm.v3.js": "8c78ad2cba9143d17a0e57d38ab6ca0ecf282c3b64bff20094a0166237824bba",
+    "core/commit.v3.js": "434a3f30d4267a674005691160fb63ad54933ab566adb2e00d6b3b20279a1858",
+    "core/conflict.v3.js": "6f0134a29dca675b53b46c3a146a981fc8fec23de5e6a682c2dba34dccf11067",
+    "core/db.v3.js": "487a64c4975e5346d96c6374c8a68520973bc12ece302b19cf9ee766c9c253f4",
+    "core/evidence.v3.js": "3121e4f06f7f84d009a9447135235af79189cd915e66235b1ed82b15a06fa12f",
+    "core/feedback.v3.js": "583213d987883dc2f0cc5669ddf476c2a22062008e4c057586c9397ea37c71ff",
+    "core/governance.v3.js": "cbcdce46a7386ee79cfdf877eb80bb5b33dc7c0c63604773669a01088178322d",
+    "core/policy.v3.js": "9ae93ca17210a99df9e02a0cd9b0c7acad111a5f2f1fc3fc55b9460ad8c74d39",
+    "core/present.v3.js": "8d14a8545d7016d5847204bf296e9db3698cb77499dae994053a05c25e1e1861",
+    "core/scope.v3.js": "5b8232a7542a0d94e2002a4e81252a9a36d538187689701969d2e9e2f9ab3bdb",
+    "core/task.v3.js": "11c9e520943d2d8ea40192266d3b96e038d35d41ef05cec8e777b6fcc7cb6539",
+    "data/gpcs_prereq_slice.v0.3.json": "b144a297511436ea34a3a0c13d7848c641a67e8db6a19c10312059d0ca332748",
+    "data/gpcs_tasks.v0.3.json": "d944ccf1ef33ff68f7d46cbfd05ded492b3366130b1e89cc4e4460f58c58659a",
+    "data/msvo_canonical_map.v0.3.json": "6371e57b7910893654f42fc52692d17309174910839860f011a8e507907114d9",
+    "index.html": "bd90a03a24549e265202885a73b6c124cb410d342c8c4cbfed52b01c12f7c99e",
+    "styles.css": "442dff490c8f947e0500c38b48ff72e655f822670a5a3bdabcf11fb76e9a995b"
+  },
+  "created_at_utc": "2026-09-24T13:47:42.256Z",
+  "candidate_status": "CANDIDATE_FROZEN (H_c^(5)) — implementer-side only. Independent conformance NOT executed; H_final NOT designated; device protocol NOT created; MAN/FMA NOT executed; Pilot P01 NOT started.",
+  "immutability_note": "After this freeze no hash-bound runtime/data/config artifact may change under H_c^(5); any change invalidates it (new candidate, new hash, rerun)."
+}
