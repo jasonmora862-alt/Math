@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="robots" content="noindex" />
+<title>v0.3 served identity check</title>
+<style>
+  :root { --bg:#ffffff; --fg:#111; --muted:#555; --ok:#0a6b2e; --bad:#a1141b; --line:#ddd; --card:#f6f6f6; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg:#0e1117; --fg:#eee; --muted:#aaa; --ok:#4fd07a; --bad:#ff6b6b; --line:#333; --card:#171b22; } }
+  :root[data-theme="dark"] { --bg:#0e1117; --fg:#eee; --muted:#aaa; --ok:#4fd07a; --bad:#ff6b6b; --line:#333; --card:#171b22; }
+  body { margin:0; padding:16px; background:var(--bg); color:var(--fg); font:15px/1.45 -apple-system, system-ui, sans-serif; }
+  h1 { font-size:18px; margin:0 0 8px; }
+  .verdict { font-size:28px; font-weight:700; margin:12px 0; }
+  .ok { color:var(--ok); } .bad { color:var(--bad); }
+  code, .mono { font-family: ui-monospace, Menlo, monospace; font-size:12px; word-break:break-all; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:12px; margin:12px 0; }
+  table { width:100%; border-collapse:collapse; font-size:12px; }
+  td { border-top:1px solid var(--line); padding:4px 2px; vertical-align:top; }
+  .muted { color:var(--muted); }
+  button { font:inherit; padding:10px 14px; min-height:44px; border-radius:8px; border:1px solid var(--line); background:var(--card); color:var(--fg); }
+</style>
+</head>
+<body>
+<h1>TNPO/MSVO v0.3: served runtime identity check</h1>
+<p class="muted">This is an audit tool. It is not part of the v0.3 runtime and changes nothing. It fetches the 17 runtime files from <code>../v0.3/</code> through this browser (including any service worker that controls this site) and hashes them on the phone.</p>
+<div class="card">
+  <div>Expected H_final:</div>
+  <div class="mono" id="expected"></div>
+  <div class="verdict" id="verdict">Checking…</div>
+  <div>Served aggregate: <span class="mono" id="served">—</span></div>
+  <div class="top muted" id="sw"></div>
+  <div class="muted" id="when"></div>
+</div>
+<button id="again">Check again</button>
+<div class="card"><table id="files"></table></div>
+<script>
+const H_FINAL = 'c6901e644e5e0df6a1e8bef24af5d6bc873df47b64d31b24dda82cf027de5c8a';
+const FILES = {"app.js":"ed79c42053ee94dcde70ad1d46769aac62411e7684dd905536863e94a588b527","core/afm.v3.js":"8c78ad2cba9143d17a0e57d38ab6ca0ecf282c3b64bff20094a0166237824bba","core/commit.v3.js":"ca187039ab2209b85d2c8d8f7c11ddaf5b4f1aae9123f5ab6d161e1732ab3a2a","core/conflict.v3.js":"6f0134a29dca675b53b46c3a146a981fc8fec23de5e6a682c2dba34dccf11067","core/db.v3.js":"487a64c4975e5346d96c6374c8a68520973bc12ece302b19cf9ee766c9c253f4","core/evidence.v3.js":"3121e4f06f7f84d009a9447135235af79189cd915e66235b1ed82b15a06fa12f","core/feedback.v3.js":"583213d987883dc2f0cc5669ddf476c2a22062008e4c057586c9397ea37c71ff","core/governance.v3.js":"1293df4af727e912bb038519642a02e6da44a378b2db3c2f0c2727eff8ae5c23","core/policy.v3.js":"9ae93ca17210a99df9e02a0cd9b0c7acad111a5f2f1fc3fc55b9460ad8c74d39","core/present.v3.js":"d714fa874deac2a67a6f52847407573717fb5309482662b2aa4199e901e1e3b4","core/scope.v3.js":"5b8232a7542a0d94e2002a4e81252a9a36d538187689701969d2e9e2f9ab3bdb","core/task.v3.js":"11c9e520943d2d8ea40192266d3b96e038d35d41ef05cec8e777b6fcc7cb6539","data/gpcs_prereq_slice.v0.3.json":"b144a297511436ea34a3a0c13d7848c641a67e8db6a19c10312059d0ca332748","data/gpcs_tasks.v0.3.json":"d944ccf1ef33ff68f7d46cbfd05ded492b3366130b1e89cc4e4460f58c58659a","data/msvo_canonical_map.v0.3.json":"6371e57b7910893654f42fc52692d17309174910839860f011a8e507907114d9","index.html":"bd90a03a24549e265202885a73b6c124cb410d342c8c4cbfed52b01c12f7c99e","styles.css":"442dff490c8f947e0500c38b48ff72e655f822670a5a3bdabcf11fb76e9a995b"};
+const $ = (id) => document.getElementById(id);
+const hex = (buf) => [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('');
+const sha = async (bytes) => hex(await crypto.subtle.digest('SHA-256', bytes));
+async function run() {
+  $('expected').textContent = H_FINAL; $('verdict').textContent = 'Checking…'; $('verdict').className = 'verdict'; $('files').innerHTML = '';
+  const ctl = navigator.serviceWorker && navigator.serviceWorker.controller;
+  $('sw').textContent = ctl ? 'A service worker controls this page (' + ctl.scriptURL + '). Result below reflects what it serves.' : 'No service worker controls this page.';
+  const got = {}; const rows = [];
+  for (const p of Object.keys(FILES).sort()) {
+    try { const r = await fetch('../v0.3/' + p); got[p] = r.ok ? await sha(await r.arrayBuffer()) : 'HTTP ' + r.status; }
+    catch (e) { got[p] = 'ERROR ' + e.message; }
+    rows.push('<tr><td>' + (got[p] === FILES[p] ? '<span class="ok">✓</span>' : '<span class="bad">✗</span>') + '</td><td class="mono">' + p + '<br>' + got[p] + '</td></tr>');
+  }
+  const lines = Object.keys(got).sort().map(p => p + ':' + got[p] + '\n').join('');
+  const agg = await sha(new TextEncoder().encode(lines));
+  $('served').textContent = agg;
+  const match = agg === H_FINAL;
+  $('verdict').textContent = match ? 'MATCH: H_final is served here' : 'MISMATCH: do NOT run MAN here';
+  $('verdict').className = 'verdict ' + (match ? 'ok' : 'bad');
+  $('files').innerHTML = rows.join('');
+  $('when').textContent = 'Checked ' + new Date().toISOString() + ' · ' + navigator.userAgent;
+}
+$('again').addEventListener('click', run);
+run();
+</script>
+</body>
+</html>
