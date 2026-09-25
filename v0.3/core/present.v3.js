@@ -46,7 +46,7 @@ export function makePresenter({ map, slice, engine }) {
     CONFLICT_RESOLUTION: 'One more question that can tell the two conventions apart.',
     PT08_TRANSFER: 'A transfer check in a changed context (larger numbers). It gathers evidence; it does not change your validation.',
     PT08_RECHECK: 'A re-check of the open transfer concern, in a changed context. It gathers evidence; it does not change your validation.',
-    INDEPENDENT_VALIDATION: 'This question counts once: after it has been shown to you, it cannot be offered again as independent validation.'
+    INDEPENDENT_VALIDATION: 'This question counts once: after it has been shown to you, it cannot be offered again as independent validation. Reloading keeps this same attempt. Using or reporting outside help means it cannot count.'
   };
   const PROVENANCE_CLASS = { GENUINE_PROVENANCE_BACKED_REQUIRES: 'Genuine prerequisite, backed by a recorded provenance record',
     SYNTHETIC_AUDIT_FIXTURE_ONLY: 'Audit fixture only — not a real prerequisite' };
@@ -69,7 +69,7 @@ export function makePresenter({ map, slice, engine }) {
       case 'PREREQ_ROUND_EXHAUSTED': return `There is no more practice for “${nodeTitle(pres.focus)}” in this round, and its evidence is not yet enough, so independent validation is not offered. Your target “${nodeTitle(pres.target)}” stays saved.${tail}`;
       case 'CONFLICT_NO_RESOLVER': return `Your answers support two incompatible interpretations, and no question that can tell them apart is left in this round. Nothing is treated as settled.${tail}`;
       case 'CONCERN_NO_RECHECK': return `The transfer concern is still open, and no further re-check is available in this round. Your earlier validation stays in your history.${tail}`;
-      case 'VALIDATION_ITEM_ALREADY_USED': return `This topic’s independent-validation question has already been shown to you, so it cannot count as independent validation again, and no other independent-validation question is available. Your evidence and history are unchanged.${tail}`;
+      case 'VALIDATION_ITEM_ALREADY_USED': return `Independent validation can’t be completed for this topic right now. Its independent-validation question has already been shown to you (answered, left unfinished, or used with help), so it cannot count again, and no other fresh independent-validation question is available. This is not a judgement about what you know. Your evidence and history are unchanged.${tail}`;
       default: return `No further task is available for this target in this round.${tail}`;
     }
   }
@@ -89,6 +89,8 @@ export function makePresenter({ map, slice, engine }) {
   // The tab's own answer is called "saved" only when it equals the committed response carried by the receipt. [INV-F2]
   function duplicateText(result, submitted) {
     const rc = result.receipt || {};
+    if (rc.result && rc.result.code === 'VALIDATION_CONTAMINATED')
+      return 'This independent-validation question can no longer count as independent validation, because help was used. This answer was not recorded.';
     if (submitted && submitted.kind === 'ANSWER') {
       const mine = String(submitted.response ?? '').trim();
       if (typeof rc.response === 'string') {
@@ -106,6 +108,23 @@ export function makePresenter({ map, slice, engine }) {
     const learnerLeft = (fp.learner_states || 0) + (fp.events || 0) + (fp.meta_records || 0) + (fp.ordinary_state_rows_claiming || 0) + (fp.ordinary_events_claiming || 0);
     if (result.code === 'PILOT_COMPLETED')
       return 'Pilot session ended — this is not a withdrawal. Your pilot activity is kept on this device under your participant code only (no name is recorded) for the pilot analysis. The next participant starts with no earlier data.';
+    // F5-02: a session recovered after an app upgrade. Only participant-scoped records are governed by the choice; older
+    // pre-upgrade activity could not be attributed to the participant and is described as exactly that. [Addendum §4]
+    if (result.legacy_unattributable) {
+      const wr = fp.withdrawal_record || {};
+      const kept = ['your participant code', wr.consent_date ? 'the consent date' : null, wr.consent_version ? 'the consent version' : null,
+        wr.withdrawn_on ? 'the withdrawal date' : null, wr.data_disposition ? 'the data choice applied' : null].filter(Boolean);
+      const record = `A minimal withdrawal record is kept: ${kept.length > 1 ? `${kept.slice(0, -1).join(', ')} and ${kept.at(-1)}` : kept[0]}.`;
+      const older = 'Older pre-upgrade activity on this device could not be reliably attributed to this participant, so it remains separate from the participant record';
+      if (result.disposition === 'DELETE_WHERE_FEASIBLE') {
+        if (learnerLeft !== 0 || fp.session_record)
+          return `Pilot stopped. Deletion was requested, but ${learnerLeft + (fp.session_record ? 1 : 0)} participant-scoped pilot record(s) still remain on this device. ${older} and was not deleted. ${stop}`;
+        return `Pilot stopped. Participant-scoped pilot data from this recovered session was handled according to your choice: none remains on this device. ${older} and was not deleted. ${record} ${stop}`;
+      }
+      const scoped = learnerLeft === 0 ? 'No participant-scoped pilot activity was recorded in this recovered session.'
+        : 'Participant-scoped pilot data from this recovered session stays on this device under your participant code only (no name is recorded) and may be used in the pilot analysis.';
+      return `Pilot stopped. Your choice to keep your data was recorded. ${scoped} ${older}; it is not kept under your participant code. ${record} ${stop}`;
+    }
     if (result.disposition === 'DELETE_WHERE_FEASIBLE') {
       if (learnerLeft === 0 && !fp.session_record)
         return `Pilot stopped. Your pilot activity on this device (answers, progress and session record) was deleted. Only a minimal withdrawal record is kept: your participant code, the consent date and version, the withdrawal date, and the data choice applied. ${stop}`;
@@ -124,7 +143,7 @@ export function makePresenter({ map, slice, engine }) {
       case 'PERSISTENCE_ABORTED': return 'Couldn’t save — nothing was recorded. You can try again.';
       case 'POST_COMMIT_RENDER_FAILURE': return 'Your action was saved. The screen could not update, so it is being rebuilt from your saved progress.';
       case 'GOVERNED_HOLD': return ({ VALIDATION_CONTAMINATION: 'Independent validation cannot use help. Nothing was recorded.',
-        VALIDATION_NOT_FRESH: 'This independent-validation question was already shown to you earlier, so it cannot count as independent validation. Nothing was recorded.',
+        VALIDATION_NOT_FRESH: 'This independent-validation question has already been used (shown earlier, or used with help), so it cannot count as independent validation. Nothing was recorded.',
         SUPPORT_NOT_PERMITTED_FOR_ROLE: 'Help is not permitted for this task. Nothing was recorded.', EMPTY_RESPONSE: 'Enter an answer first.',
         RIGHTS_NOT_AFFIRMED: 'Pilot mode cannot begin until you confirm your rights above.', INVALID_PARTICIPANT_ID: 'Use a participant ID like P01.',
         PARTICIPANT_ID_ALREADY_USED: 'That participant ID has already been used on this device. Use a new participant ID.',
@@ -136,6 +155,7 @@ export function makePresenter({ map, slice, engine }) {
       case 'PRACTICE_RECORDED': return `${result.assisted ? 'Assisted' : 'Independent'} practice recorded${result.correct ? '' : ' — this attempt was not correct, so the evidence did not advance'}. Evidence: ${ev}. Practice is not independent validation.`;
       case 'VALIDATION_PASS': return `Independent validation passed. Evidence: ${ev}.`;
       case 'VALIDATION_FAIL': return `Validation not demonstrated this time. Evidence: ${ev}. Earlier history is preserved.`;
+      case 'VALIDATION_CONTAMINATED': return 'Independent validation cannot use help, so this question can no longer count as independent validation. Your answer was not scored, and your evidence and history are unchanged.';
       case 'PROBE_RECORDED': return `Answer recorded (${result.n} of ${result.total}).`;
       case 'CONFLICT_CREATED': return `Your answers separately match two incompatible conventions (${(result.competing || []).map(hypLabel).join(' vs ')}), so the evidence is conflicting — competing supported interpretations, not just mixed results.`;
       case 'CONFLICT_RESOLVED': return `Your latest answer is consistent with one convention (${hypLabel(result.resolved_to)}); the competing interpretation is no longer separately supported, so the conflict is cleared. Evidence returns to ${ev} — clearing a conflict does not by itself create stronger evidence.`;
@@ -149,7 +169,9 @@ export function makePresenter({ map, slice, engine }) {
       case 'TARGET_CLEARED': return 'Target cleared. Choose your next target.';
       case 'ROUND_RESTARTED': return `New round started for “${nodeTitle(result.node)}”.`;
       case 'PRESENTATION_RECONCILED': return 'Your current step was restored from your saved progress.';
-      case 'SELF_REPORT_RECORDED': return 'Self-report recorded as evidence. It does not change your validation state.';
+      case 'SELF_REPORT_RECORDED': return result.contaminated
+        ? 'Self-report recorded as evidence. It does not change your validation state. Because you reported outside help, the independent-validation question you were shown can no longer count as independent validation.'
+        : 'Self-report recorded as evidence. It does not change your validation state.';
       case 'CONSENT_RECORDED': return `Pilot mode started for ${result.participant_id}. This session starts with no earlier data, and its activity is kept separately from anyone else’s.`;
       case 'PILOT_COMPLETED': case 'WITHDRAWN': return lifecycleText(result, ctx.footprint);
       default: return 'Recorded.';

@@ -1,5 +1,6 @@
 // TNPO/MSVO v0.3 — Governed commit layer (ROOT A + ROOT B of the H_c^(4) architectural contract; extended by the
-// H_c^(5) remediation contract: learner DATA_SCOPE, pilot lifecycle, validation exposure/freshness).
+// H_c^(5) remediation contract: learner DATA_SCOPE, pilot lifecycle, validation exposure/freshness; H_c^(6): exposure
+// lifecycle of the Validation Exposure and Freshness Amendment v1.0 — persisted abandonment/contamination closures).
 //
 // A learner-facing control is only a REQUEST. Final authority belongs here: `decide()` runs INSIDE one IndexedDB
 // readwrite transaction (see db.governedTx) over data read in that transaction, and:
@@ -13,7 +14,7 @@
 // decide() is PURE and synchronous (uuid/clock injected), so it is unit-testable and transaction-safe. It never names
 // a physical store: the db layer routes every write into the resolved scope (core/scope.v3.js).
 import { applyAuthorizedTransition, mayAdvance, hasActiveConcern, normalizeLearnerState, GovernanceError, SELF_REPORT_OPTIONS,
-  evaluateValidationEligibility, emptyExposure, exposureEntry } from './governance.v3.js';
+  evaluateValidationEligibility, validationItemState, ITEM_STATE, emptyExposure, exposureEntry } from './governance.v3.js';
 import { evaluateResponse, learnerDisplayPrompt } from './task.v3.js';
 import { evaluateProbe, combineConflictInference, resolveConflictInference } from './conflict.v3.js';
 import { selectNextAction, actionKindOf } from './policy.v3.js';
@@ -117,17 +118,47 @@ function decisionRecord(env, { prior, inferenceRefs, action, resulting }) {
 // Learner–task exposure (H_c^(5) INV-V1): appended in the SAME transaction as the presentation / attempt.
 // noteExposure mutates the in-transaction exposure record (so policy in the same commit already sees it);
 // exposureEvent emits the matching EXPOSURE_UPDATED ledger event.
-function noteExposure(X, task, { presentation_id, target, focus, seq, now, change, attempt = null }) {
+// change: PRESENTED | ATTEMPTED | ABANDONED | CONTAMINATED (the last two are A1 FR-5/FR-6 closures).
+function noteExposure(X, task, { presentation_id, target, focus, seq, now, change, attempt = null, cause = null }) {
   const it = (X.value.items[task.task_id] ||= exposureEntry(task, { target, focus }));
   if (change === 'PRESENTED') it.exposures.push({ presentation_id, seq, at: now });
-  else it.attempts.push({ presentation_id, seq, at: now, ...attempt });
+  else if (change === 'ATTEMPTED') it.attempts.push({ presentation_id, seq, at: now, ...attempt });
+  else (it.closures ||= []).push({ presentation_id, seq, at: now, state: CLOSURE_STATE[change], cause });
   X.dirty = true;
-  return { it, task, presentation_id, target, focus, change, attempt };
+  return { it, task, presentation_id, target, focus, change, attempt, cause };
 }
-function exposureEvent(chain, { it, task, presentation_id, target, focus, change, attempt }) {
+const CLOSURE_STATE = { ABANDONED: ITEM_STATE.ABANDONED, CONTAMINATED: ITEM_STATE.CONTAMINATED };
+function exposureEvent(chain, { it, task, presentation_id, target, focus, change, attempt, cause }) {
   chain.add('EXPOSURE_UPDATED', 'EXPOSURE_RECORD', { node_id: focus, target, task_id: task.task_id, task_version: task.task_version, presentation_id,
-    exposure_record_ref: it.exposure_id, change, result: attempt ? attempt.result : null, exposures: it.exposures.length, attempts: it.attempts.length },
+    exposure_record_ref: it.exposure_id, change, result: attempt ? attempt.result : null, exposures: it.exposures.length, attempts: it.attempts.length,
+    ...(CLOSURE_STATE[change] ? { item_state: CLOSURE_STATE[change], cause, closures: it.closures.length } : {}) },
     { actor: 'TASK_ENGINE', object_refs: [task.task_id], payload_ref: it.exposure_id });
+}
+// The presentation is the ACTIVE_EXPOSURE (A1 FR-2) of a validation item: an unanswered, unclosed governed attempt.
+function activeValidationExposure(env, X, states, pres) {
+  if (!pres || pres.status !== 'ACTIVE' || pres.kind !== 'TASK' || pres.role !== 'INDEPENDENT_VALIDATION') return null;
+  const task = env.content.getTask(pres.task_id);
+  if (!task || task.validation_role !== 'INDEPENDENT_VALIDATION') return null;
+  const s = validationItemState({ task, exposure: X.value, validationHistory: states(pres.focus).validation_history, currentPresentationId: pres.presentation_id });
+  return s === ITEM_STATE.ACTIVE ? task : null;
+}
+// A1 FR-5: an authoritative target/round/presentation transition that terminates an ACTIVE_EXPOSURE consumes it,
+// persisted in the same transaction as that transition.
+function abandonValidationExposure(env, chain, X, states, pres, seq, cause) {
+  const task = activeValidationExposure(env, X, states, pres);
+  if (task) exposureEvent(chain, noteExposure(X, task, { presentation_id: pres.presentation_id, target: pres.target, focus: pres.focus, seq, now: env.now, change: 'ABANDONED', cause }));
+}
+// A1 FR-6: help / assistance consumes the ACTIVE_EXPOSURE as CONSUMED_CONTAMINATED (persisted, same transaction), the
+// presentation is consumed without evaluating any answer, and the next governed step is presented. validation_state and
+// validation_history are never touched (UIG-04, CC-05).
+function contaminateValidationExposure(env, W, chain, X, { task, pres, round, states, seq, cause }) {
+  chain.add('DECISION_AUTHORIZED', 'DECISION', { node_id: pres.focus, target: pres.target, presentation_id: pres.presentation_id, task_id: task.task_id,
+    kind: 'VALIDATION_EXPOSURE_CONSUMED', item_state: ITEM_STATE.CONTAMINATED, cause, validation_state_changed: false,
+    record: decisionRecord(env, { prior: [stateRef(env, states(pres.focus))], inferenceRefs: [], action: 'CONSUME_VALIDATION_EXPOSURE' }) },
+    { actor: 'GOVERNED_RUNTIME', object_refs: [task.task_id] });
+  exposureEvent(chain, noteExposure(X, task, { presentation_id: pres.presentation_id, target: pres.target, focus: pres.focus, seq, now: env.now, change: 'CONTAMINATED', cause }));
+  supersede(W, pres, seq, 'CONSUMED');
+  return presentNext(env, W, chain, X, { target: pres.target, states, round, prevPres: pres, inferenceRefs: null, seq });
 }
 
 // Create the next governed presentation (policy DECISION + FOCUS_SET/TASK_SELECTED/TASK_PRESENTED) — INV-B2.
@@ -231,9 +262,10 @@ export function decide(req, reads, env0) {
   const states = (id) => stateOf(reads, id);
   const X = { value: clone(M.task_exposure) || emptyExposure(), dirty: false };
   if (!X.value.items) X.value.items = {};
+  // The receipt carries the committed response only when an answer was actually recorded (never for a contaminated one).
   const receiptWrite = (result) => W.push({ store: 'meta', op: 'add', key: `receipt::${laid}`,
     value: { logical_action_id: laid, kind: req.kind, commit_seq: seq, outcome: OUTCOMES.COMMITTED, result, at: env.now,
-      ...(req.kind === 'ANSWER' ? { response: String(req.response ?? '').trim() } : {}) } });
+      ...(req.kind === 'ANSWER' && result.code !== 'VALIDATION_CONTAMINATED' ? { response: String(req.response ?? '').trim() } : {}) } });
   const activePres = M.active_learn ? M[`pres::${M.active_learn}`] : null;
   const committed = (chain, result) => { for (const e of chain.events) W.push({ store: 'events', op: 'add', value: e });
     if (X.dirty) W.push({ store: 'meta', op: 'put', key: 'task_exposure', value: X.value });
@@ -256,7 +288,14 @@ export function decide(req, reads, env0) {
       // Commit-layer freshness defence: recomputed from PERSISTED exposure history whatever the UI/policy showed. [INV-V3]
       const freshness = task.validation_role === 'INDEPENDENT_VALIDATION'
         ? evaluateValidationEligibility({ task, exposure: X.value, validationHistory: focusState.validation_history, currentPresentationId: pres.presentation_id }) : null;
-      if (freshness && !freshness.eligible) return verdict(OUTCOMES.HOLD, 'VALIDATION_NOT_FRESH', { freshness: freshness.reason });
+      if (freshness && !freshness.eligible) return verdict(OUTCOMES.HOLD, 'VALIDATION_NOT_FRESH', { freshness: freshness.reason, item_state: freshness.item_state });
+      // A1 FR-6: an assisted submission on a validation exposure is refused AND consumes the exposure (persisted), so a
+      // later unassisted submission of the same item can never certify. No answer is evaluated or recorded.
+      if (freshness && req.support_used) {
+        const chain = makeChain(env, seq, laid, pres.presentation_id, pres.presented_event_id);
+        const next = contaminateValidationExposure(env, W, chain, X, { task, pres, round, states, seq, cause: 'ASSISTED_SUBMISSION' });
+        return committed(chain, { code: 'VALIDATION_CONTAMINATED', cause: 'ASSISTED_SUBMISSION', item_state: ITEM_STATE.CONTAMINATED, next_presentation: next.presentation_id });
+      }
       // re-derive CURRENT governance (default deny)
       const a = rederive(env, reads, pres, round, X);
       const currentKind = actionKindOf(task, focusState);
@@ -358,6 +397,7 @@ export function decide(req, reads, env0) {
       W.push({ store: 'meta', op: 'put', key: 'current_target', value: req.node });
       W.push({ store: 'meta', op: 'put', key: 'chooser_epoch', value: (M.chooser_epoch || 0) + 1 });
       W.push({ store: 'meta', op: 'put', key: `round::${req.node}`, value: round });
+      abandonValidationExposure(env, chain, X, states, activePres, seq, 'TARGET_SELECTED');
       supersede(W, activePres, seq);
       const p = presentNext(env, W, chain, X, { target: req.node, states, round, prevPres: null, inferenceRefs: null, seq });
       return committed(chain, { code: 'TARGET_SET', node: req.node, next_presentation: p.presentation_id });
@@ -371,6 +411,7 @@ export function decide(req, reads, env0) {
       W.push({ store: 'meta', op: 'put', key: 'current_target', value: null });
       W.push({ store: 'meta', op: 'put', key: 'active_learn', value: null });
       W.push({ store: 'meta', op: 'put', key: 'chooser_epoch', value: (M.chooser_epoch || 0) + 1 });
+      abandonValidationExposure(env, chain, X, states, activePres, seq, 'TARGET_CLEARED');
       supersede(W, activePres, seq);
       return committed(chain, { code: 'TARGET_CLEARED' });
     }
@@ -383,6 +424,7 @@ export function decide(req, reads, env0) {
       chain.add('TARGET_SELECTED', 'DECISION', { node_id: activePres.target, round_id: round.round_id, round_restart: true,
         record: decisionRecord(env, { prior: [], inferenceRefs: [], action: 'START_NEW_ROUND' }) }, { actor: 'LEARNER', object_refs: [activePres.target] });
       W.push({ store: 'meta', op: 'put', key: `round::${activePres.target}`, value: round });
+      abandonValidationExposure(env, chain, X, states, activePres, seq, 'ROUND_RESTARTED');   // (a HOLD: never an exposure today)
       supersede(W, activePres, seq);
       const p = presentNext(env, W, chain, X, { target: activePres.target, states, round, prevPres: activePres, inferenceRefs: null, seq });
       return committed(chain, { code: 'ROUND_RESTARTED', node: activePres.target, next_presentation: p.presentation_id });
@@ -400,16 +442,30 @@ export function decide(req, reads, env0) {
       }
       const chain = makeChain(env, seq, laid, null, activePres?.presented_event_id || null);
       if (!round) { round = newRound(env, target); W.push({ store: 'meta', op: 'put', key: `round::${target}`, value: round }); }
+      abandonValidationExposure(env, chain, X, states, activePres, seq, 'PRESENTATION_RECONCILED');
       supersede(W, activePres, seq);
       const p = presentNext(env, W, chain, X, { target, states, round, prevPres: activePres && activePres.target === target ? activePres : null, inferenceRefs: null, seq });
       return committed(chain, { code: 'PRESENTATION_RECONCILED', next_presentation: p.presentation_id });
     }
     // ------------------------------------------------------------------ SELF_REPORT
     case 'SELF_REPORT': {
-      if (!activePres || activePres.focus !== req.node) return verdict(OUTCOMES.STALE, 'FOCUS_CHANGED');
+      // A1 FR-6 (H_c^(7) F6-02): a self-report of outside help committed while this learner data scope has an
+      // authoritative ACTIVE_EXPOSURE validation item contaminates THAT exposure. The exposure is resolved here, from
+      // the persisted state read in this transaction (active presentation, current target, round, task_exposure) —
+      // never from the presentation the dialog was opened on, which is kept in the OBSERVATION as provenance only.
+      const help = req.value === 'I used outside help';
+      const round = activePres ? M[`round::${activePres.target}`] : null;
+      const task = help && activePres && activePres.target === M.current_target && round && round.round_id === activePres.round_id
+        ? activeValidationExposure(env, X, states, activePres) : null;
+      if (!task && (!activePres || activePres.focus !== req.node)) return verdict(OUTCOMES.STALE, 'FOCUS_CHANGED');
       if (!SELF_REPORT_OPTIONS.includes(req.value)) return verdict(OUTCOMES.HOLD, 'UNKNOWN_SELF_REPORT_OPTION');
       const chain = makeChain(env, seq, laid, activePres.presentation_id, activePres.presented_event_id);
-      chain.add('SELF_REPORT', 'OBSERVATION', { node_id: req.node, value: req.value, note: req.note || null }, { actor: 'LEARNER', object_refs: [req.node] });
+      chain.add('SELF_REPORT', 'OBSERVATION', { node_id: req.node, value: req.value, note: req.note || null,
+        presentation_id: req.presentation_id || null }, { actor: 'LEARNER', object_refs: [req.node] });
+      if (task) {
+        const next = contaminateValidationExposure(env, W, chain, X, { task, pres: activePres, round, states, seq, cause: 'SELF_REPORTED_OUTSIDE_HELP' });
+        return committed(chain, { code: 'SELF_REPORT_RECORDED', contaminated: true, item_state: ITEM_STATE.CONTAMINATED, next_presentation: next.presentation_id });
+      }
       return committed(chain, { code: 'SELF_REPORT_RECORDED' });   // no learner-state write [V03-GOV-004]
     }
   }
@@ -459,17 +515,30 @@ function decideLifecycle(req, reads, env, scope) {
   const row = reads.activeRow || null;
   const M = reads.meta || {};
   const seq = (M.commit_seq || 0) + 1;
-  const ledger = (type, payload) => {                                  // participant ledger (only when the scope is resolved)
+  // Participant ledger (only when the scope is resolved). A1 FR-5 (H_c^(7) F6-01): ending the participant's session
+  // terminates any validation attempt of THIS participant that is still ACTIVE_EXPOSURE, so the same transaction
+  // persists its CONSUMED_ABANDONED closure (participant scope only; never ORDINARY, AFM or another participant).
+  const ledger = (type, payload, cause) => {
     if (scope.kind !== 'PILOT') return;
     const chain = makeChain(env, seq, laid, null, null);
-    chain.add(type, 'DECISION', payload, { actor: 'PARTICIPANT', object_refs: [pid] });
+    const X = { value: clone(M.task_exposure) || emptyExposure(), dirty: false };
+    if (!X.value.items) X.value.items = {};
+    const states = (id) => stateOf(reads, id);
+    const activePres = M.active_learn ? M[`pres::${M.active_learn}`] : null;
+    const open = activeValidationExposure(env, X, states, activePres);
+    chain.add(type, 'DECISION', open ? { ...payload, validation_exposure_abandoned: open.task_id } : payload, { actor: 'PARTICIPANT', object_refs: [pid] });
+    if (open) {
+      abandonValidationExposure(env, chain, X, states, activePres, seq, cause);
+      supersede(W, activePres, seq);
+      W.push({ store: 'meta', op: 'put', key: 'task_exposure', value: X.value });
+    }
     W.push({ store: 'meta', op: 'put', key: 'commit_seq', value: seq });
     for (const e of chain.events) W.push({ store: 'events', op: 'add', value: e });
   };
 
   if (req.kind === 'COMPLETE_PILOT') {
     if (scope.kind !== 'PILOT') return verdict(OUTCOMES.HOLD, 'PILOT_SCOPE_UNRESOLVED');
-    ledger('PILOT_SESSION_COMPLETED', { participant_id: pid, withdrawal_occurred: false, learner_state_inference: false });
+    ledger('PILOT_SESSION_COMPLETED', { participant_id: pid, withdrawal_occurred: false, learner_state_inference: false }, 'PILOT_COMPLETED');
     W.push({ store: 'pilotSessions', op: 'put', value: { ...row, completed_at: env.now } });
     lifecycleEnd();
     receiptW({ code: 'PILOT_COMPLETED' });
@@ -487,11 +556,15 @@ function decideLifecycle(req, reads, env, scope) {
     W.push({ store: 'pilotSessions', op: 'delete', key: pid });
     if (row && Number.isInteger(row.consent_epoch)) W.push({ store: 'global', op: 'delete', key: `receipt::PILOT:${row.consent_epoch}:CONSENT:${pid}` });
   } else {
-    ledger('PILOT_WITHDRAWN', { participant_id: pid, disposition: req.disposition, default_applied: !!req.default_choice, learner_state_inference: false });
+    ledger('PILOT_WITHDRAWN', { participant_id: pid, disposition: req.disposition, default_applied: !!req.default_choice, learner_state_inference: false }, 'PILOT_WITHDRAWN_RETAIN');
     W.push({ store: 'pilotSessions', op: 'put', value: { ...(row || { participant_id: pid }), withdrawn_at: env.now, data_disposition: req.disposition } });
   }
   W.push({ store: 'pilotAdmin', op: 'put', value: admin });
   lifecycleEnd();
-  receiptW({ code: 'WITHDRAWN', disposition: req.disposition });
-  return { outcome: OUTCOMES.COMMITTED, writes: W, result: { code: 'WITHDRAWN', disposition: req.disposition, participant_id: pid, logical_action_id: laid } };
+  // F5-02: withdrawal from an UNRESOLVED (recovered pre-upgrade) session. Activity from before the upgrade could not be
+  // attributed to this participant and stays in its original (ordinary) scope — it is neither deleted nor retained
+  // under the participant code, and the learner-facing text must say so. It is never re-attributed. [Addendum §4]
+  const legacy = scope.kind === 'UNRESOLVED' ? { legacy_unattributable: true } : {};
+  receiptW({ code: 'WITHDRAWN', disposition: req.disposition, ...legacy });
+  return { outcome: OUTCOMES.COMMITTED, writes: W, result: { code: 'WITHDRAWN', disposition: req.disposition, participant_id: pid, logical_action_id: laid, ...legacy } };
 }

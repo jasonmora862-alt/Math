@@ -47,7 +47,8 @@ async function commitRequest(req) {
     r = await db.governedTx(ns, {}, readPlan(req), (reads) => decide(req, reads, envFor(ns)));
   return r;
 }
-const feedbackKind = (r) => r.outcome === OUTCOMES.COMMITTED ? 'success' : (r.outcome === OUTCOMES.DUPLICATE ? 'info' : 'refusal');
+const feedbackKind = (r) => r.outcome === OUTCOMES.COMMITTED ? (r.result && (r.result.code === 'VALIDATION_CONTAMINATED' || r.result.contaminated) ? 'info' : 'success')
+  : (r.outcome === OUTCOMES.DUPLICATE ? 'info' : 'refusal');
 
 // Submit a learner request; acknowledge ONLY after the transaction completed; then rebuild the view from persisted
 // state. A render failure after a successful commit is reported as such and never resubmits. [contract §3]
@@ -253,7 +254,7 @@ async function renderPresentation(body, pres) {
     </div>`;
 
   $('#whyBtn', body).addEventListener('click', track(() => openWhy(pres.focus)));
-  $('#selfReportBtn', body).addEventListener('click', () => openSelfReport(pres.focus));
+  $('#selfReportBtn', body).addEventListener('click', () => openSelfReport(pres.focus, pres.presentation_id));
   $$('[data-change-target]', body).forEach(b => b.addEventListener('click', () => submit({ kind: 'CHANGE_TARGET', presentation_id: b.dataset.changeTarget })));
   $$('[data-restart]', body).forEach(b => b.addEventListener('click', () => submit({ kind: 'RESTART_ROUND', presentation_id: b.dataset.restart })));
   $$('[data-submit]', body).forEach(b => b.addEventListener('click', () => submit({ kind: 'ANSWER', presentation_id: b.dataset.pid,
@@ -275,14 +276,20 @@ async function openWhy(nodeId) {
 }
 
 // ---------------- Learner correction / self-report ----------------
-function openSelfReport(nodeId) {
+function openSelfReport(nodeId, presentationId) {
   const dialogId = uuid();   // LOGICAL_ACTION_ID seed for this dialog instance (retry reuses it)
+  // The learner data scope the report belongs to is the one the dialog was opened in, even if the page re-renders into
+  // another scope behind the open dialog; the commit layer refuses it (DATA_SCOPE_CHANGED) unless that scope is still
+  // authoritative. The token only ever refuses — it never selects a scope. (A1 FR-10; H_c^(7) F6-02 scope isolation)
+  const scopeToken = app.scopeToken || undefined;
   $('#correctionChoices').innerHTML = `<legend class="sr-only">Choose a correction</legend>` +
     SELF_REPORT_OPTIONS.map((o, i) => `<label><input type="radio" name="correction" value="${esc(o)}"${i === 0 ? ' checked' : ''} /> <span>${esc(o)}</span></label>`).join('');
   $('#correctionNote').value = '';
   $('#saveCorrectionBtn').onclick = async () => {
     const sel = $('#correctionForm input[name="correction"]:checked');
-    const r = await submit({ kind: 'SELF_REPORT', dialog_id: dialogId, node: nodeId, value: sel ? sel.value : null, note: $('#correctionNote').value.trim() || null });
+    // the presentation the dialog was opened on is provenance only: the commit layer applies a help report to the
+    // authoritative ACTIVE_EXPOSURE of this scope at commit time (A1 FR-6; H_c^(7) F6-02)
+    const r = await submit({ kind: 'SELF_REPORT', dialog_id: dialogId, scope_token: scopeToken, node: nodeId, presentation_id: presentationId || undefined, value: sel ? sel.value : null, note: $('#correctionNote').value.trim() || null });
     if (r.outcome === OUTCOMES.COMMITTED || r.outcome === OUTCOMES.DUPLICATE || r.outcome === OUTCOMES.STALE) $('#correctionDialog').close();
   };
   $('#correctionDialog').showModal();

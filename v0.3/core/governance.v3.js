@@ -186,41 +186,62 @@ export function normalizeLearnerState(raw, nodeId) {
 // scope, append-only, and independent of rounds, targets, tabs and reloads. It is kept in the scoped meta record
 // `task_exposure` = { version: 1, items: { [task_id]: LearnerTaskExposure } } and mirrored in the ledger by
 // EXPOSURE_UPDATED events. An item is EXPOSED once a governed presentation of it exists for the learner.
+// H_c^(6): the item's lifecycle state is defined by the Validation Exposure and Freshness Amendment v1.0 (A1, FR-2);
+// explicit closures (`closures[]`: CONSUMED_ABANDONED / CONSUMED_CONTAMINATED) are persisted in the same transaction
+// as the governed action that causes them (FR-11a). Records written before closures existed have no `closures`.
 export const ELIGIBILITY = Object.freeze({
   FRESH: 'ELIGIBLE_FRESH', CURRENT: 'ELIGIBLE_CURRENT_EXPOSURE', FAILURE: 'INELIGIBLE_DUE_TO_FAILURE',
-  PRIOR: 'INELIGIBLE_DUE_TO_PRIOR_EXPOSURE', HELP: 'INELIGIBLE_DUE_TO_HELP', NOT_VALIDATION: 'NOT_A_VALIDATION_TASK'
+  PRIOR: 'INELIGIBLE_DUE_TO_PRIOR_EXPOSURE', HELP: 'INELIGIBLE_DUE_TO_HELP', ABANDONED: 'INELIGIBLE_DUE_TO_ABANDONMENT',
+  NOT_VALIDATION: 'NOT_A_VALIDATION_TASK'
 });
+export const ITEM_STATE = Object.freeze({
+  UNEXPOSED: 'UNEXPOSED', ACTIVE: 'ACTIVE_EXPOSURE', PASS: 'CONSUMED_PASS', FAIL: 'CONSUMED_FAIL',
+  ABANDONED: 'CONSUMED_ABANDONED', CONTAMINATED: 'CONSUMED_CONTAMINATED'
+});
+const REASON_OF_STATE = { UNEXPOSED: ELIGIBILITY.FRESH, ACTIVE_EXPOSURE: ELIGIBILITY.CURRENT, CONSUMED_PASS: ELIGIBILITY.PRIOR,
+  CONSUMED_FAIL: ELIGIBILITY.FAILURE, CONSUMED_ABANDONED: ELIGIBILITY.ABANDONED, CONSUMED_CONTAMINATED: ELIGIBILITY.HELP };
 export const emptyExposure = () => ({ version: 1, items: {} });
 export function exposureEntry(task, { target = null, focus = null } = {}) {
   return { exposure_id: `LTE:${task.task_id}`, task_id: task.task_id, task_version: task.task_version || null, template_id: task.template_id || null,
-    validation_role: task.validation_role, target, focus, exposures: [], attempts: [] };
+    validation_role: task.validation_role, target, focus, exposures: [], attempts: [], closures: [] };
+}
+
+// A1 FR-2 lifecycle state of one validation item in one learner data scope, from PERSISTED history only.
+// `currentPresentationId` is the governed attempt being (re)authorized; an exposure under any other presentation
+// with no attempt is a terminated attempt (FR-5; A1 D-3 for records without an explicit closure).
+export function validationItemState({ task, exposure = null, validationHistory = [], currentPresentationId = null } = {}) {
+  const items = (exposure && exposure.items) || {};
+  const related = Object.values(items).filter(x => x && (x.task_id === task.task_id || (task.template_id && x.template_id === task.template_id)));
+  const attempts = [...related.flatMap(x => x.attempts || []),
+    ...(Array.isArray(validationHistory) ? validationHistory : []).filter(h => h && h.task_id === task.task_id)];
+  const closures = related.flatMap(x => x.closures || []);
+  if (closures.some(c => c.state === ITEM_STATE.CONTAMINATED) || attempts.some(a => a.support_used)) return ITEM_STATE.CONTAMINATED;
+  if (attempts.some(a => a.result === 'FAIL')) return ITEM_STATE.FAIL;
+  if (attempts.length) return ITEM_STATE.PASS;
+  if (closures.some(c => c.state === ITEM_STATE.ABANDONED)) return ITEM_STATE.ABANDONED;
+  const shows = related.flatMap(x => x.exposures || []);
+  if (!shows.length) return ITEM_STATE.UNEXPOSED;
+  if (currentPresentationId && shows.every(s => s.presentation_id === currentPresentationId)) return ITEM_STATE.ACTIVE;
+  return ITEM_STATE.ABANDONED;
 }
 
 // THE single freshness function, used by policy selection, commit-time authorization and (through the transition's
 // `freshness` field) the transition layer. Exact item identity; a declared Task-Model template_id shared with an
 // exposed item counts as the same item (`task ID change != evidence independence`). No other equivalence is invented.
+// Eligible only while UNEXPOSED (a new attempt) or ACTIVE_EXPOSURE of this very presentation (A1 FR-2/FR-3).
 export function evaluateValidationEligibility({ task, exposure = null, validationHistory = [], currentPresentationId = null } = {}) {
-  if (!task || task.validation_role !== 'INDEPENDENT_VALIDATION') return { eligible: true, reason: ELIGIBILITY.NOT_VALIDATION, exposure_record_ref: null };
+  if (!task || task.validation_role !== 'INDEPENDENT_VALIDATION') return { eligible: true, reason: ELIGIBILITY.NOT_VALIDATION, item_state: null, exposure_record_ref: null };
   const items = (exposure && exposure.items) || {};
-  const related = Object.values(items).filter(x => x && (x.task_id === task.task_id || (task.template_id && x.template_id === task.template_id)));
   const ref = items[task.task_id] ? items[task.task_id].exposure_id : null;
-  const attempts = [...related.flatMap(x => x.attempts || []),
-    ...(Array.isArray(validationHistory) ? validationHistory : []).filter(h => h && h.task_id === task.task_id)];
-  const out = (eligible, reason) => ({ eligible, reason, exposure_record_ref: ref });
-  if (attempts.some(a => a.support_used)) return out(false, ELIGIBILITY.HELP);
-  if (attempts.some(a => a.result === 'FAIL')) return out(false, ELIGIBILITY.FAILURE);
-  if (attempts.length) return out(false, ELIGIBILITY.PRIOR);
-  const shows = related.flatMap(x => x.exposures || []);
-  if (!shows.length) return out(true, ELIGIBILITY.FRESH);
-  if (currentPresentationId && shows.every(s => s.presentation_id === currentPresentationId)) return out(true, ELIGIBILITY.CURRENT);
-  return out(false, ELIGIBILITY.PRIOR);
+  const item_state = validationItemState({ task, exposure, validationHistory, currentPresentationId });
+  return { eligible: item_state === ITEM_STATE.UNEXPOSED || item_state === ITEM_STATE.ACTIVE, reason: REASON_OF_STATE[item_state], item_state, exposure_record_ref: ref };
 }
 
 // Rebuild the exposure index of one scope from its persisted ledger + learner states (DB v1 -> v2 upgrade; tests).
 export function exposureFromLedger(events = [], states = []) {
   const X = emptyExposure();
   const entry = (p) => (X.items[p.task_id] ||= { exposure_id: `LTE:${p.task_id}`, task_id: p.task_id, task_version: p.task_version || null, template_id: null,
-    validation_role: 'INDEPENDENT_VALIDATION', target: p.target || null, focus: p.node_id || null, exposures: [], attempts: [] });
+    validation_role: 'INDEPENDENT_VALIDATION', target: p.target || null, focus: p.node_id || null, exposures: [], attempts: [], closures: [] });
   for (const e of events) {
     const p = e && e.payload; if (!p || !p.task_id) continue;
     if ((e.type === 'TASK_PRESENTED' || e.event_type === 'TASK_PRESENTED') && p.role === 'INDEPENDENT_VALIDATION')
